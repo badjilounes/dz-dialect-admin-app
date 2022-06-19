@@ -1,0 +1,16 @@
+{
+  "files.trimFinalNewlines": true,
+  "eslint.alwaysShowStatus": true,
+  "eslint.validate": ["javascript", "typescript", "html"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "[json][jsonc][css][scss][less]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript][typescript][html]": {
+    "editor.formatOnSave": false
+  },
+}
