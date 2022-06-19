@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { MenuComponent } from 'src/app/pages/authenticated/menu/menu.component';
 
 const routes: Routes = [
@@ -12,12 +13,12 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
       },
-    ]
+    ],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthenticatedRoutingModule { }
+export class AuthenticatedRoutingModule {}

@@ -1,11 +1,8 @@
-import { NgModule } from "@angular/core";
-import { AuthenticatedRoutingModule } from "./authenticated-routing.module";
-import { MenuModule } from "./menu/menu.module";
+import { NgModule } from '@angular/core';
+
+import { AuthenticatedRoutingModule } from './authenticated-routing.module';
 
 @NgModule({
-  imports: [
-    AuthenticatedRoutingModule,
-    MenuModule,
-  ]
+  imports: [AuthenticatedRoutingModule],
 })
-export class AuthenticatedModule { }
+export class AuthenticatedModule {}
