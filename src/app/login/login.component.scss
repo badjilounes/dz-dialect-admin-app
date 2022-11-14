@@ -1,0 +1,101 @@
+:host {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .mat-form-field ::ng-deep {
+    .mat-form-field-outline-start {
+      border-radius: 16px 0 0 16px;
+      min-width: 16px;
+    }
+
+    .mat-form-field-outline-end {
+      border-radius: 0 16px 16px 0;
+    }
+
+    .mat-form-field-flex {
+      padding: 0 1.5em 0 1.5em;
+    }
+
+    .mat-form-field-subscript-wrapper {
+      margin-top: 0.25rem;
+      padding: 0 2em;
+    }
+
+    .mat-form-field-infix {
+      border-top: 0.5em solid transparent;
+    }
+  }
+}
+
+.mat-icon-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  color: white;
+}
+
+form {
+  display: grid;
+}
+
+.mat-raised-button {
+  height: 50px;
+  border-radius: 16px;
+  margin-top: 10px;
+}
+
+.mat-form-field {
+  display: block;
+  height: 67px;
+}
+
+.mat-card{
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  box-shadow: none;
+
+  .mat-card-header {
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 26px;
+      margin: 10px 0 15px;
+      font-weight: 700;
+    }
+  }
+  .already-have-account,
+  .no-account-yet {
+    font-weight: 700;
+    margin-top: 20px;
+    text-align: center;
+
+    span {
+      cursor: pointer;
+    }
+  }
+}
+
+.alternative-divider {
+  display: grid;
+  grid-template-columns: auto min-content auto;
+  place-items: center;
+  column-gap: 0.5rem;
+  margin: 24px 0;
+
+  .mat-divider {
+    width: 100%;
+    border-top-width: 2px;
+  }
+
+  span {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .8px;
+  }
+}
