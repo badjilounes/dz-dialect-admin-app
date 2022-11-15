@@ -1,5 +1,6 @@
 import { Component} from '@angular/core';
 import { FormControl, FormGroup} from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,8 +15,12 @@ export class LoginComponent {
     password: new FormControl(''),
   });
 
+  constructor(private readonly router: Router) {}
+
   hidePassword = true;
 
-  submit() {}
+  submit() {
+    this.router.navigate(['/home']);
+  }
 
 }
