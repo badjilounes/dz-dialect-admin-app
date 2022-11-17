@@ -1,0 +1,23 @@
+<form>
+    <mat-form-field class="example-chip-list" appearance="fill">
+        <mat-label>DZ</mat-label>
+        <mat-chip-list #chipList aria-label="Selection de mots">
+          <mat-chip *ngFor="let word of words" (removed)="remove(word)">
+            {{word.name}}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input placeholder="Nouveau mot"
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+      </mat-form-field>
+
+    <div mat-dialog-actions>
+        <button mat-raised-button color="primary">Poster</button>
+        <button mat-raised-button mat-dialog-close color="accent">Annuler</button>
+    </div>
+</form>

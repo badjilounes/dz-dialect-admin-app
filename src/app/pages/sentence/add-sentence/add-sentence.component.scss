@@ -1,0 +1,19 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.example-form-field {
+    width: 200px;
+}
+
+
+.mat-dialog-actions, 
+button {
+    width: 100%;
+}
+
+.mat-dialog-actions {
+    flex-wrap: inherit;
+}
