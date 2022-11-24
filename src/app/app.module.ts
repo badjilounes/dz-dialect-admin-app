@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -12,7 +13,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatChipsModule} from '@angular/material/chips';
-
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { MenuComponent } from './core/menu/menu.component';
 import { AddSentenceComponent } from './pages/sentence/add-sentence/add-sentence.component';
 import { SentenceComponent } from './pages/sentence/sentence.component';
+import { ChipsSentenceComponent } from './shared/chips-sentence/chips-sentence.component';
+import { TextSentenceComponent } from './shared/text-sentence/text-sentence.component';
+import { ButtonSentenceComponent } from './shared/button-sentence/button-sentence.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,10 @@ import { SentenceComponent } from './pages/sentence/sentence.component';
     HomeComponent,
     MenuComponent,
     SentenceComponent,
-    AddSentenceComponent
+    AddSentenceComponent,
+    ChipsSentenceComponent,
+    TextSentenceComponent,
+    ButtonSentenceComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +55,9 @@ import { SentenceComponent } from './pages/sentence/sentence.component';
     MatSidenavModule,
     MatToolbarModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatButtonToggleModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

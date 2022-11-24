@@ -9,11 +9,18 @@
 }
 
 
-.mat-dialog-actions, 
-button {
+.mat-dialog-actions {
+    width: 100%;
+    justify-content: flex-end;
+}
+
+form {
     width: 100%;
 }
 
-.mat-dialog-actions {
-    flex-wrap: inherit;
+h1 {
+    text-align: center;
 }
+
+
+  
