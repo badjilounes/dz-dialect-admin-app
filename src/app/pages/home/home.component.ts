@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SentenceHttpService } from 'src/app/core/clients/sentence-api';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,6 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 }

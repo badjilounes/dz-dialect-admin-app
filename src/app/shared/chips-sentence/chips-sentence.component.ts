@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {COMMA, ENTER} from  '@angular/cdk/keycodes' ;
+import {COMMA, ENTER, SPACE} from  '@angular/cdk/keycodes' ;
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 export interface Word {
   name: string;
@@ -14,33 +15,45 @@ export interface Word {
 export class ChipsSentenceComponent implements OnInit {
 
   @Input() label: string = '';
+  @Input() formChips: FormGroup = new FormGroup([]);
+  @Input() nameChips: string= '';
+
+
+  formArray = new FormArray<FormControl>([]);
+
 
   constructor() { }
 
   ngOnInit(): void {
+    this.formArray.valueChanges.subscribe((value) => console.log('valeur reçue', value));
+    this.addGroupToParent();
+
   }
   
   addOnBlur = true ;
-  readonly separatorKeysCodes = [ENTER, COMMA] as  const ;
-  words : Word[] = [];
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as  const ;
 
   add(event: MatChipInputEvent): void {
      const value = (event.value || '' ).trim();
 
 
     if (value) {
-       this .words.push({ name : value});
+       this .formArray.push(new FormControl(value));
     }
 
 
     event.chipInput!.clear();
   }
 
-  remove(word : Word): void {
-     const index = this .words.indexOf(word);
+  remove(word : string): void {
+     const index = this .formArray.value.indexOf(word);
 
     if (index >= 0 ) {
-       this .words.splice(index, 1 );
+       this .formArray.removeAt(index);
     }
+  }
+
+  private addGroupToParent(): void {
+    this.formChips.addControl(this.nameChips, this.formArray);
   }
 }

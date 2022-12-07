@@ -27,6 +27,7 @@ import { SentenceComponent } from './pages/sentence/sentence.component';
 import { ChipsSentenceComponent } from './shared/chips-sentence/chips-sentence.component';
 import { TextSentenceComponent } from './shared/text-sentence/text-sentence.component';
 import { ButtonSentenceComponent } from './shared/button-sentence/button-sentence.component';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ButtonSentenceComponent } from './shared/button-sentence/button-sentenc
     ButtonSentenceComponent
   ],
   imports: [
+    CoreModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
