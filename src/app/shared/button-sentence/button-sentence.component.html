@@ -1,0 +1,6 @@
+<p>
+    <label>{{label}}</label>
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" [formControl]="formControl">
+        <mat-button-toggle *ngFor="let option of options" value={{option.value}}>{{option.label}}</mat-button-toggle>
+    </mat-button-toggle-group>
+</p>

@@ -1,0 +1,26 @@
+<h1 mat-dialog-title> CREER TA PHRASE </h1>
+<form [formGroup]="parentForm" (ngSubmit)="getValue()">
+    <mat-dialog-content>
+
+        <app-chips-sentence [label]="'PROPOSITIONS DZ'" [formChips]="parentForm" [nameChips]="'word_propositions_dz'"></app-chips-sentence>
+        <app-chips-sentence [label]="'PROPOSITIONS FR'" [formChips]="parentForm" [nameChips]="'word_propositions_fr'"></app-chips-sentence>
+        <app-chips-sentence [label]="'PRONOMS'" [formChips]="parentForm" [nameChips]="'pronouns'"></app-chips-sentence>
+        <app-chips-sentence [label]="'ADJECTIFS'" [formChips]="parentForm" [nameChips]="'adjectives'"></app-chips-sentence>
+        <app-chips-sentence [label]="'VERBES'" [formChips]="parentForm" [nameChips]="'verbs'"></app-chips-sentence>
+
+        <app-text-sentence [label]="'DZ'" [formData]="parentForm" [name]="'dz'"></app-text-sentence>
+        <app-text-sentence [label]="'FR'" [formData]="parentForm" [name]="'fr'"></app-text-sentence>
+        <app-text-sentence [label]="'DZ_AR'" [formData]="parentForm" [name]="'dz_ar'"></app-text-sentence>
+
+        <app-button-sentence  [label]="'SCHEMA'" [parentForm]="parentForm" [controlName]="'schema'" [options]="schemaOptions"></app-button-sentence>
+        <app-button-sentence [label]="'TENSE'" [parentForm]="parentForm" [controlName]="'tense'" [options]="tensOptions"></app-button-sentence>
+
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close color="accent">Annuler</button>
+        <button mat-raised-button color="primary">Enregistrer</button>
+
+    </mat-dialog-actions>
+</form>
