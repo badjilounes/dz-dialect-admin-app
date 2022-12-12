@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  sentenceApiUrl: 'https://dz-dialect-sentence-api.server.bdsapp.fr'
 };

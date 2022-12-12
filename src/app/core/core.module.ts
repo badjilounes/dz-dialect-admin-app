@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: environment.apiUrl,
+    basePath: environment.sentenceApiUrl,
   };
   return new Configuration(params);
 }
