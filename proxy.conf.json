@@ -1,0 +1,31 @@
+{
+  "/sentence-proxy": {
+    "target": "http://localhost:3002",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info",
+    "pathRewrite": {
+      "^/sentence-proxy": ""
+    }
+  },
+
+  "/identity-proxy": {
+    "target": "http://localhost:3000",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info",
+    "pathRewrite": {
+      "^/identity-proxy": ""
+    }
+  },
+
+  "/training-proxy": {
+    "target": "http://localhost:3001",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "info",
+    "pathRewrite": {
+      "^/training-proxy": ""
+    }
+  }
+}

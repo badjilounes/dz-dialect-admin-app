@@ -2,12 +2,12 @@
   <mat-icon>close</mat-icon>
 </button>
 
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        <h1>Se connecter</h1>
-      </mat-card-title>
-    </mat-card-header>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h1>Se connecter</h1>
+    </mat-card-title>
+  </mat-card-header>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <mat-form-field appearance="outline">
@@ -28,16 +28,12 @@
         matInput
         formControlName="password"
       />
-      <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-icon matSuffix (click)="hidePassword = !hidePassword">{{
+        hidePassword ? 'visibility_off' : 'visibility'
+      }}</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="primary">
-      
-      SE CONNECTER
-   
-    </button>
-
-
+    <button mat-raised-button color="primary">SE CONNECTER</button>
   </form>
 
   <div class="alternative-divider">
@@ -46,8 +42,15 @@
     <mat-divider></mat-divider>
   </div>
 
-  <p class="no-account-yet">
-    <span>Tu n'as pas encore de compte? S'INSCRIRE</span>
-  </p>
-</mat-card>
+  <div class="alternative-actions-container">
+    <button mat-stroked-button class="alternative-login-button" (click)="signInWith('twitter')">
+      <mat-icon [svgIcon]="'twitter'"></mat-icon>
+      Twitter
+    </button>
 
+    <button mat-stroked-button class="alternative-login-button" (click)="signInWith('google')">
+      <mat-icon [svgIcon]="'google'"></mat-icon>
+      Google
+    </button>
+  </div>
+</mat-card>

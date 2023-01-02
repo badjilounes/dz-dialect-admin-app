@@ -1,23 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { environment } from 'src/environments/environment';
-import { Configuration, ConfigurationParameters, ApiModule } from './clients/sentence-api';
 import { HttpClientModule } from '@angular/common/http';
-
-function apiConfigFactory(): Configuration {
-  const params: ConfigurationParameters = {
-    basePath: environment.sentenceApiUrl,
-  };
-  return new Configuration(params);
-}
-
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { HTTP_BEARER_TOKEN_INTERCEPTOR_PROVIDER } from 'src/app/core/authentication/bearer-token.interceptor';
+import { IdentityClientModule } from 'src/app/core/clients/identity-client.module';
+import { SentenceClientModule } from 'src/app/core/clients/sentence-client.module';
+import { TrainingClientModule } from 'src/app/core/clients/training-client.module';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule, ApiModule.forRoot(apiConfigFactory), HttpClientModule
-  ]
+    CommonModule,
+    HttpClientModule,
+    SentenceClientModule,
+    TrainingClientModule,
+    IdentityClientModule,
+  ],
+  providers: [HTTP_BEARER_TOKEN_INTERCEPTOR_PROVIDER, { provide: LOCALE_ID, useValue: 'fr' }],
 })
-export class CoreModule { }
-
-
+export class CoreModule {}

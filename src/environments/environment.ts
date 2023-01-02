@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  sentenceApiUrl: 'http://localhost:3000'
+  sentenceApiUrl: '/sentence-proxy',
+  identityApiUrl: '/identity-proxy',
+  trainingApiUrl: '/training-proxy',
 };
 
 /*
