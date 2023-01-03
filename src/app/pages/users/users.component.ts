@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -40,7 +40,29 @@ export class UsersComponent implements AfterViewInit {
   constructor(
     private readonly usersHttpService: UsersHttpService,
     private readonly snackBar: MatSnackBar,
-  ) {}
+    private readonly paginatorIntl: MatPaginatorIntl,
+  ) {
+    this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
+    this.paginatorIntl.nextPageLabel = 'Page suivante';
+    this.paginatorIntl.previousPageLabel = 'Page précédente';
+    this.paginatorIntl.firstPageLabel = 'Première page';
+    this.paginatorIntl.lastPageLabel = 'Dernière page';
+    this.paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      if (length === 0 || pageSize === 0) {
+        return `0 sur ${length}`;
+      }
+
+      length = Math.max(length, 0);
+
+      const startIndex = page * pageSize;
+
+      // If the start index exceeds the list length, do not try and fix the end index to the end.
+      const endIndex =
+        startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+
+      return `${startIndex + 1} - ${endIndex} sur ${length}`;
+    };
+  }
 
   ngAfterViewInit() {
     this.paginator.page
