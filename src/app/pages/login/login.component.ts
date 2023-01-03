@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +8,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, EMPTY, tap } from 'rxjs';
 import { AppStore } from 'src/app/app.store';
@@ -32,13 +32,15 @@ import { AuthenticationHttpService } from 'src/clients/dz-dialect-identity-api';
     MatSnackBarModule,
   ],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   form: FormGroup = new FormGroup({
     username: new FormControl(''),
     password: new FormControl(''),
   });
+  hidePassword = true;
 
   constructor(
+    private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly authenticationHttpService: AuthenticationHttpService,
     private readonly userAppStore: AppStore,
@@ -56,11 +58,16 @@ export class LoginComponent {
     );
   }
 
-  hidePassword = true;
+  ngOnInit(): void {
+    const error = this.route.snapshot.queryParams['error'];
+    if (error) {
+      this.snackBar.open(error, 'OK', { duration: 3000 });
+    }
+  }
 
   submit() {
     this.authenticationHttpService
-      .signIn(this.form.value)
+      .adminSignIn(this.form.value)
       .pipe(
         tap(({ token }) => this.userAppStore.setAsAuthenticated(token)),
         tap(() => this.router.navigate(['/home'])),
