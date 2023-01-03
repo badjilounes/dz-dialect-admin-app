@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, map, of, startWith, switchMap, EMPTY, tap } from 'rxjs';
+import { catchError, EMPTY, map, of, startWith, switchMap, tap } from 'rxjs';
 import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identity-api';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @UntilDestroy()
 @Component({
@@ -22,6 +23,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatButtonModule,
   ],
 })
 export class UsersComponent implements AfterViewInit {

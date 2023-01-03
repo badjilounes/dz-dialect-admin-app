@@ -1,9 +1,19 @@
-
-.example-container {
+.users-container {
   position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content auto;
+  gap: 12px;
+  padding: 0 12px;
 }
 
-.example-table-container {
+.users-header-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}
+
+.table-container {
   position: relative;
   overflow: auto;
 }
@@ -12,7 +22,7 @@ table {
   width: 100%;
 }
 
-.example-loading-shade {
+.loading-shade {
   position: absolute;
   top: 0;
   left: 0;
@@ -26,6 +36,6 @@ table {
 }
 
 /* Column Widths */
-.mat-column-admin{
-  max-width: 64px;
+.mat-column-isAdmin{
+  width: 40px;
 }
