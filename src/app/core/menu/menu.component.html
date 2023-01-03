@@ -9,13 +9,18 @@
   >
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['/users']" routerLinkActive="active-link"
+      <a
+        mat-list-item
+        [routerLink]="['/users']"
+        routerLinkActive="active-link"
+        (click)="drawer.mode === 'over' && drawer.close()"
         >Utilisateurs</a
       >
       <a
         mat-list-item
         [routerLink]="['/sentences']"
         routerLinkActive="active-link"
+        (click)="drawer.mode === 'over' && drawer.close()"
         >Phrases</a
       >
     </mat-nav-list>

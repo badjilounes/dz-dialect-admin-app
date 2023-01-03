@@ -35,6 +35,27 @@ table {
   justify-content: center;
 }
 
+.mat-cell{
+  max-width: 25vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &:not(:last-of-type) {
+    padding-right: 16px;
+  }
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 16px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 16px;
+}
+
+
 /* Column Widths */
 .mat-column-isAdmin{
   width: 40px;
