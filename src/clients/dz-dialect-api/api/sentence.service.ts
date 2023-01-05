@@ -23,6 +23,8 @@ import { BulkCreateSentenceDto } from '../model/bulk-create-sentence-dto';
 // @ts-ignore
 import { CreateSentenceDto } from '../model/create-sentence-dto';
 // @ts-ignore
+import { PaginatedSentenceResponseDto } from '../model/paginated-sentence-response-dto';
+// @ts-ignore
 import { SentenceResponseDto } from '../model/sentence-response-dto';
 
 // @ts-ignore
@@ -236,13 +238,14 @@ export class SentenceHttpService {
      * @param count 
      * @param verbs 
      * @param tenses 
+     * @param page 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SentenceResponseDto>>;
-    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SentenceResponseDto>>>;
-    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SentenceResponseDto>>>;
-    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, page?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<SentenceResponseDto>>;
+    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, page?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<SentenceResponseDto>>>;
+    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, page?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<SentenceResponseDto>>>;
+    public getSentenceList(count: number, verbs?: Array<string>, tenses?: Array<string>, page?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (count === null || count === undefined) {
             throw new Error('Required parameter count was null or undefined when calling getSentenceList.');
         }
@@ -263,6 +266,10 @@ export class SentenceHttpService {
                 localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
                   <any>element, 'tenses');
             })
+        }
+        if (page !== undefined && page !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>page, 'page');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -409,6 +416,84 @@ export class SentenceHttpService {
         return this.httpClient.request<Array<string>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: localVarHeaders,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Search a sentence
+     * @param pageIndex 
+     * @param pageSize 
+     * @param q 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public searchSentence(pageIndex: number, pageSize: number, q?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PaginatedSentenceResponseDto>;
+    public searchSentence(pageIndex: number, pageSize: number, q?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PaginatedSentenceResponseDto>>;
+    public searchSentence(pageIndex: number, pageSize: number, q?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PaginatedSentenceResponseDto>>;
+    public searchSentence(pageIndex: number, pageSize: number, q?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+        if (pageIndex === null || pageIndex === undefined) {
+            throw new Error('Required parameter pageIndex was null or undefined when calling searchSentence.');
+        }
+        if (pageSize === null || pageSize === undefined) {
+            throw new Error('Required parameter pageSize was null or undefined when calling searchSentence.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (pageIndex !== undefined && pageIndex !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageIndex, 'pageIndex');
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageSize, 'pageSize');
+        }
+        if (q !== undefined && q !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>q, 'q');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        let localVarHttpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (localVarHttpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'application/json'
+            ];
+            localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        let localVarHttpContext: HttpContext | undefined = options && options.context;
+        if (localVarHttpContext === undefined) {
+            localVarHttpContext = new HttpContext();
+        }
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/sentence/search`;
+        return this.httpClient.request<PaginatedSentenceResponseDto>('get', `${this.configuration.basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

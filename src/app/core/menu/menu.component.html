@@ -23,6 +23,13 @@
         (click)="drawer.mode === 'over' && drawer.close()"
         >Phrases</a
       >
+      <a
+        mat-list-item
+        [routerLink]="['/chapters']"
+        routerLinkActive="active-link"
+        (click)="drawer.mode === 'over' && drawer.close()"
+        >Chapîtres</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

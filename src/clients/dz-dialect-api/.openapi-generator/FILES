@@ -14,6 +14,7 @@ model/bulk-sentence-dto.ts
 model/bulk-sentence-word-proposition-dto.ts
 model/create-sentence-dto.ts
 model/models.ts
+model/paginated-sentence-response-dto.ts
 model/sentence-response-dto.ts
 param.ts
 variables.ts

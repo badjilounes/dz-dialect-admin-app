@@ -3,4 +3,5 @@ export * from './bulk-sentence-additional-information-dto';
 export * from './bulk-sentence-dto';
 export * from './bulk-sentence-word-proposition-dto';
 export * from './create-sentence-dto';
+export * from './paginated-sentence-response-dto';
 export * from './sentence-response-dto';

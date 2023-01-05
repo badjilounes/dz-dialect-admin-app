@@ -1,0 +1,19 @@
+:host {
+  display: grid;
+  grid-template-rows: min-content auto;
+}
+
+.chapters-container {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-rows: min-content auto;
+  gap: 12px;
+  padding: 0 12px;
+}
+
+.chapters-header-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 0;
+}

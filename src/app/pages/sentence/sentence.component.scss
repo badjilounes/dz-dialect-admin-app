@@ -1,3 +1,26 @@
+:host {
+  display: grid;
+  grid-template-rows: min-content auto;
+
+  .mat-form-field ::ng-deep {
+    .mat-form-field-infix{
+      padding: 11px 0;
+      border-top: none;
+    }
+
+    .mat-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    .mat-input-element {
+      position: relative;
+      top: 2px;
+      margin: 0;
+    }
+  }
+}
+
 .sentence-container {
   position: relative;
   height: 100%;
@@ -11,4 +34,62 @@
   display: flex;
   justify-content: flex-end;
   padding: 8px 0;
+  gap: 24px;
+
+  .mat-form-field {
+    width: 100%;
+    flex: 1;
+  }
 }
+
+
+.table-container {
+  position: relative;
+  overflow: auto;
+  max-height: 100%;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-cell{
+  max-width: 15vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &:not(:last-of-type) {
+    padding-right: 16px;
+  }
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 16px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 16px;
+}
+
+
+/* Column Widths */
+.mat-column-actions{
+  width: 40px;
+}
+
