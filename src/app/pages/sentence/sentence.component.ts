@@ -12,7 +12,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, map, of, startWith, switchMap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { SentenceHttpService, SentenceResponseDto } from 'src/clients/dz-dialect-api';
 import { AddSentenceComponent } from './add-sentence/add-sentence.component';
 
@@ -40,7 +50,7 @@ export class SentenceComponent implements AfterViewInit {
   displayedColumns: string[] = ['fr', 'dz', 'dz_ar', 'actions'];
   data: SentenceResponseDto[] = [];
 
-  query = '';
+  query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   pageIndex = 0;
   pageSize = 10;
   length = 0;
@@ -77,13 +87,23 @@ export class SentenceComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page
+    const debouncedQuery$ = this.query$.pipe(
+      distinctUntilChanged(),
+      debounceTime(250),
+      untilDestroyed(this),
+    );
+
+    merge(this.paginator.page, debouncedQuery$)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
           return this.sentenceHttpService
-            .searchSentence(this.paginator.pageIndex, this.paginator.pageSize, this.query)
+            .searchSentence(
+              this.paginator.pageIndex,
+              this.paginator.pageSize,
+              this.query$.getValue(),
+            )
             .pipe(catchError(() => of(null)));
         }),
         map((data) => {
@@ -109,12 +129,8 @@ export class SentenceComponent implements AfterViewInit {
   }
 
   applyFilter(event: Event) {
-    this.query = (event.target as HTMLInputElement).value;
-    if (this.paginator.pageIndex !== 0) {
-      this.paginator.firstPage();
-    } else {
-      this.paginator.page.emit();
-    }
+    this.query$.next((event.target as HTMLInputElement).value);
+    this.paginator.pageIndex = 0;
   }
 
   addPost() {
