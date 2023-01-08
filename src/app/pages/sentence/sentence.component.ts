@@ -99,11 +99,7 @@ export class SentenceComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           return this.sentenceHttpService
-            .searchSentence(
-              this.paginator.pageIndex,
-              this.paginator.pageSize,
-              this.query$.getValue(),
-            )
+            .searchSentence(this.paginator.pageIndex, this.paginator.pageSize, this.query$.value)
             .pipe(catchError(() => of(null)));
         }),
         map((data) => {

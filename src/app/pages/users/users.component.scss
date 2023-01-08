@@ -1,6 +1,25 @@
 :host {
   display: grid;
   grid-template-rows: min-content auto;
+  padding: 12px;
+
+  .mat-form-field ::ng-deep {
+    .mat-form-field-infix{
+      padding: 11px 0;
+      border-top: none;
+    }
+
+    .mat-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    .mat-input-element {
+      position: relative;
+      top: 2px;
+      margin: 0;
+    }
+  }
 }
 
 .users-container {
@@ -16,6 +35,12 @@
   display: flex;
   justify-content: flex-end;
   padding: 8px 0;
+  gap: 24px;
+
+  .mat-form-field {
+    width: 100%;
+    flex: 1;
+  }
 }
 
 .table-container {

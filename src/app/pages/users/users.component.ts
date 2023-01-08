@@ -1,13 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, EMPTY, map, of, startWith, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  merge,
+  of,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identity-api';
 
 @UntilDestroy()
@@ -24,12 +38,15 @@ import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identi
     MatSlideToggleModule,
     MatSnackBarModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
 })
 export class UsersComponent implements AfterViewInit {
   displayedColumns: string[] = ['email', 'username', 'name', 'provider', 'isAdmin'];
   data: UserResponseDto[] = [];
 
+  query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
   pageIndex = 0;
   pageSize = 10;
   length = 0;
@@ -65,13 +82,19 @@ export class UsersComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.paginator.page
+    const debouncedQuery$ = this.query$.pipe(
+      distinctUntilChanged(),
+      debounceTime(250),
+      untilDestroyed(this),
+    );
+
+    merge(this.paginator.page, debouncedQuery$)
       .pipe(
         startWith({}),
         switchMap(() => {
           this.isLoadingResults = true;
           return this.usersHttpService
-            .getAll(this.paginator.pageIndex, this.paginator.pageSize)
+            .getAll(this.paginator.pageIndex, this.paginator.pageSize, this.query$.value)
             .pipe(catchError(() => of(null)));
         }),
         map((data) => {
@@ -94,6 +117,11 @@ export class UsersComponent implements AfterViewInit {
         untilDestroyed(this),
       )
       .subscribe((data) => (this.data = data));
+  }
+
+  applyFilter(event: Event) {
+    this.query$.next((event.target as HTMLInputElement).value);
+    this.paginator.pageIndex = 0;
   }
 
   toggleAdmin(userId: string, isAdmin: boolean) {

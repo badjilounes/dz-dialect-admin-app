@@ -275,18 +275,22 @@ export class UsersHttpService {
      * Get all users
      * @param pageIndex 
      * @param pageSize 
+     * @param query 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getAll(pageIndex: number, pageSize: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PaginatedUserResponseDto>;
-    public getAll(pageIndex: number, pageSize: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PaginatedUserResponseDto>>;
-    public getAll(pageIndex: number, pageSize: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PaginatedUserResponseDto>>;
-    public getAll(pageIndex: number, pageSize: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
+    public getAll(pageIndex: number, pageSize: number, query: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<PaginatedUserResponseDto>;
+    public getAll(pageIndex: number, pageSize: number, query: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<PaginatedUserResponseDto>>;
+    public getAll(pageIndex: number, pageSize: number, query: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<PaginatedUserResponseDto>>;
+    public getAll(pageIndex: number, pageSize: number, query: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (pageIndex === null || pageIndex === undefined) {
             throw new Error('Required parameter pageIndex was null or undefined when calling getAll.');
         }
         if (pageSize === null || pageSize === undefined) {
             throw new Error('Required parameter pageSize was null or undefined when calling getAll.');
+        }
+        if (query === null || query === undefined) {
+            throw new Error('Required parameter query was null or undefined when calling getAll.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -297,6 +301,10 @@ export class UsersHttpService {
         if (pageSize !== undefined && pageSize !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pageSize, 'pageSize');
+        }
+        if (query !== undefined && query !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>query, 'query');
         }
 
         let localVarHeaders = this.defaultHeaders;

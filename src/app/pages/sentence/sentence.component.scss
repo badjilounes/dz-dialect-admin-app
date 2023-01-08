@@ -1,6 +1,7 @@
 :host {
   display: grid;
   grid-template-rows: min-content auto;
+  padding: 12px;
 
   .mat-form-field ::ng-deep {
     .mat-form-field-infix{

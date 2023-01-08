@@ -4,6 +4,14 @@
   </div>
 
   <div class="users-header-container">
+    <mat-form-field appearance="outline">
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Rechercher un utilisateur"
+        #input
+      />
+    </mat-form-field>
     <button mat-raised-button color="primary">Ajouter un utilisateur</button>
   </div>
 
