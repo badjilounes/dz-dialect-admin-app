@@ -19,9 +19,10 @@ export interface Word {
 })
 export class ChipsSentenceComponent implements OnInit {
   @Input() label: string = '';
-  @Input() formChips: FormGroup = new FormGroup([]);
+  @Input() parentForm!: FormGroup;
   @Input() nameChips: string = '';
   @Input() required = false;
+  @Input() value?: string[];
 
   formArray = new FormArray<FormControl>([]);
 
@@ -35,7 +36,13 @@ export class ChipsSentenceComponent implements OnInit {
       this.formArray.setValidators(Validators.required);
     }
 
-    this.formChips.addControl(this.nameChips, this.formArray);
+    if (this.value) {
+      this.value.forEach((word) => {
+        this.formArray.push(new FormControl(word));
+      });
+    }
+
+    this.parentForm.addControl(this.nameChips, this.formArray);
   }
 
   add(event: MatChipInputEvent): void {

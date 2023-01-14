@@ -21,6 +21,7 @@ export class ButtonSentenceComponent implements OnInit {
   @Input() controlName: string = '';
   @Input() options: ButtonOption[] = [];
   @Input() required = false;
+  @Input() value?: string;
 
   formControl = new FormControl();
 
@@ -33,6 +34,10 @@ export class ButtonSentenceComponent implements OnInit {
 
     if (this.required) {
       this.formControl.setValidators(Validators.required);
+    }
+
+    if (this.value) {
+      this.formControl.setValue(this.value);
     }
 
     this.parentForm.addControl(this.controlName, this.formControl);

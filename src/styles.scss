@@ -4,11 +4,15 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #424242; }
 
 
-.add-sentence-dialog .mat-dialog-container {
-  display: flex;
-  flex-direction: column;
+.add-sentence-dialog {
   height: 100%;
-  flex: 1;
-  overflow: auto;
-  padding: 0;
+  
+  .mat-dialog-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+    overflow: auto;
+    padding: 0;
+  }
 }

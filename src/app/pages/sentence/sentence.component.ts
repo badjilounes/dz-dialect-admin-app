@@ -142,13 +142,14 @@ export class SentenceComponent implements AfterViewInit {
     this.paginator.pageIndex = 0;
   }
 
-  addSentence() {
+  addOrEditSentence(data?: SentenceResponseDto) {
     const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
 
     const dialogRef = this.dialog.open(AddSentenceComponent, {
+      data,
       width: '100%',
       maxWidth: isHandset ? '100%' : '65vw',
-      maxHeight: isHandset ? '100vh' : '85vh',
+      maxHeight: isHandset ? '100%' : '85vh',
       panelClass: 'add-sentence-dialog',
     });
 
@@ -156,22 +157,15 @@ export class SentenceComponent implements AfterViewInit {
       .afterClosed()
       .pipe(
         filter((result) => !!result),
-        tap(() => this.snackBar.open('La phrase a bien été ajoutée', 'Fermer', { duration: 2000 })),
-        tap(() => this.paginator.firstPage()),
+        tap(({ updated }) =>
+          this.snackBar.open(`La phrase a bien été ${updated ? 'modifiée' : 'ajoutée'}`, 'Fermer', {
+            duration: 2000,
+          }),
+        ),
+        tap(() => this.paginator.page.emit()),
         untilDestroyed(this),
       )
       .subscribe();
-  }
-
-  editSentence(data: SentenceResponseDto) {
-    const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
-
-    this.dialog.open(AddSentenceComponent, {
-      data,
-      width: '100%',
-      maxWidth: isHandset ? '100%' : '65vw',
-      maxHeight: isHandset ? '100vh' : '85vh',
-    });
   }
 
   deleteSentence(sentence: SentenceResponseDto) {

@@ -1,51 +1,60 @@
-<h1 mat-dialog-title>Ajouter une phrase</h1>
-<form [formGroup]="parentForm" (ngSubmit)="addSentence()">
+<h1 mat-dialog-title *ngIf="!data">Ajouter une phrase</h1>
+<h1 mat-dialog-title *ngIf="data">Modifier une phrase</h1>
+<form [formGroup]="parentForm" (ngSubmit)="addOrEditSentence()">
   <mat-dialog-content>
     <app-chips-sentence
       [label]="'Propositions en algérien'"
-      [formChips]="parentForm"
+      [parentForm]="parentForm"
       [nameChips]="'word_propositions_dz'"
+      [value]="data?.word_propositions_dz"
     ></app-chips-sentence>
     <app-chips-sentence
       [label]="'Propositions en français'"
-      [formChips]="parentForm"
+      [parentForm]="parentForm"
       [nameChips]="'word_propositions_fr'"
+      [value]="data?.word_propositions_fr"
     ></app-chips-sentence>
     <app-chips-sentence
       [label]="'Pronoms'"
-      [formChips]="parentForm"
+      [parentForm]="parentForm"
       [nameChips]="'pronouns'"
+      [value]="data?.pronouns"
     ></app-chips-sentence>
     <app-chips-sentence
       [label]="'Adjectifs'"
-      [formChips]="parentForm"
+      [parentForm]="parentForm"
       [nameChips]="'adjectives'"
+      [value]="data?.adjectives"
     ></app-chips-sentence>
     <app-chips-sentence
       [label]="'Verbes'"
-      [formChips]="parentForm"
+      [parentForm]="parentForm"
       [nameChips]="'verbs'"
+      [value]="data?.verbs"
     ></app-chips-sentence>
 
     <app-text-sentence
       [label]="'Algérien'"
-      [formData]="parentForm"
+      [parentForm]="parentForm"
       [name]="'dz'"
       [required]="true"
+      [value]="data?.dz"
     ></app-text-sentence>
 
     <app-text-sentence
       [label]="'Français'"
-      [formData]="parentForm"
+      [parentForm]="parentForm"
       [name]="'fr'"
       [required]="true"
+      [value]="data?.fr"
     ></app-text-sentence>
 
     <app-text-sentence
       [label]="'Arabe'"
-      [formData]="parentForm"
+      [parentForm]="parentForm"
       [name]="'dz_ar'"
       [required]="true"
+      [value]="data?.dz_ar"
     ></app-text-sentence>
 
     <app-button-sentence
@@ -54,6 +63,7 @@
       [controlName]="'schema'"
       [options]="schemaOptions"
       [required]="true"
+      [value]="data?.schema"
     ></app-button-sentence>
 
     <app-button-sentence
@@ -62,11 +72,13 @@
       [controlName]="'tense'"
       [options]="tensOptions"
       [required]="true"
+      [value]="data?.tense"
     ></app-button-sentence>
   </mat-dialog-content>
 
   <mat-dialog-actions>
     <button mat-button mat-dialog-close color="accent">Annuler</button>
-    <button mat-raised-button color="primary">Ajouter la phrase</button>
+    <button mat-raised-button color="primary" *ngIf="!data">Ajouter la phrase</button>
+    <button mat-raised-button color="primary" *ngIf="data">Modifier la phrase</button>
   </mat-dialog-actions>
 </form>

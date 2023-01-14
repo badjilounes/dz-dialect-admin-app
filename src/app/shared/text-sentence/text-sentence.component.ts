@@ -13,8 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 export class TextSentenceComponent implements OnInit {
   @Input() name: string = '';
   @Input() label: string = '';
-  @Input() formData: FormGroup = new FormGroup([]);
+  @Input() parentForm!: FormGroup;
   @Input() required = false;
+  @Input() value?: string;
 
   formControl = new FormControl();
 
@@ -25,6 +26,10 @@ export class TextSentenceComponent implements OnInit {
       this.formControl.setValidators(Validators.required);
     }
 
-    this.formData.addControl(this.name, this.formControl);
+    if (this.value) {
+      this.formControl.setValue(this.value);
+    }
+
+    this.parentForm.addControl(this.name, this.formControl);
   }
 }
