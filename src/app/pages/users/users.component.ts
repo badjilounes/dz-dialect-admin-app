@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   BehaviorSubject,
@@ -58,7 +59,9 @@ export class UsersComponent implements AfterViewInit {
     private readonly usersHttpService: UsersHttpService,
     private readonly snackBar: MatSnackBar,
     private readonly paginatorIntl: MatPaginatorIntl,
+    private readonly title: Title,
   ) {
+    this.title.setTitle('Utilisateurs');
     this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
     this.paginatorIntl.nextPageLabel = 'Page suivante';
     this.paginatorIntl.previousPageLabel = 'Page précédente';

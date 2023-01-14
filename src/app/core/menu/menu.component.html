@@ -42,6 +42,8 @@
     >
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
+
+    <span *ngIf="isHandset$ | async" class="app-title">{{ title.getTitle() }}</span>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, EMPTY, tap } from 'rxjs';
@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit {
     private readonly snackBar: MatSnackBar,
     private readonly matIconRegistry: MatIconRegistry,
     private readonly domSanitizer: DomSanitizer,
+    private readonly title: Title,
   ) {
+    this.title.setTitle('Connexion');
     this.matIconRegistry.addSvgIcon(
       'twitter',
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/svg/twitter.svg'),

@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   BehaviorSubject,
@@ -63,7 +64,9 @@ export class SentenceComponent implements AfterViewInit {
     private readonly breakpointObserver: BreakpointObserver,
     private readonly paginatorIntl: MatPaginatorIntl,
     private readonly sentenceHttpService: SentenceHttpService,
+    private readonly title: Title,
   ) {
+    this.title.setTitle('Phrases');
     this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
     this.paginatorIntl.nextPageLabel = 'Page suivante';
     this.paginatorIntl.previousPageLabel = 'Page précédente';
