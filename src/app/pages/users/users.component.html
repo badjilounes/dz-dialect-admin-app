@@ -4,15 +4,12 @@
   </div>
 
   <div class="users-header-container">
-    <mat-form-field appearance="outline">
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Rechercher un utilisateur"
-        #input
-      />
-    </mat-form-field>
     <button mat-raised-button color="primary">Ajouter un utilisateur</button>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechercher un utilisateur</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Entrer un mot" #input />
+    </mat-form-field>
   </div>
 
   <div class="table-container mat-elevation-z8">
@@ -64,13 +61,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-
-    <mat-paginator
-      [length]="length"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Select page of GitHub search results"
-    ></mat-paginator>
   </div>
+
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of GitHub search results"
+  ></mat-paginator>
 </div>
