@@ -147,7 +147,7 @@ export class SentenceComponent implements AfterViewInit {
 
     const dialogRef = this.dialog.open(AddSentenceComponent, {
       width: '100%',
-      maxWidth: isHandset ? '100%' : '85vw ',
+      maxWidth: isHandset ? '100%' : '65vw',
       maxHeight: isHandset ? '100vh' : '85vh',
       panelClass: 'add-sentence-dialog',
     });
@@ -169,7 +169,7 @@ export class SentenceComponent implements AfterViewInit {
     this.dialog.open(AddSentenceComponent, {
       data,
       width: '100%',
-      maxWidth: isHandset ? '100%' : '85vw ',
+      maxWidth: isHandset ? '100%' : '65vw',
       maxHeight: isHandset ? '100vh' : '85vh',
     });
   }
