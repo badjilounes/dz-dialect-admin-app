@@ -7,7 +7,7 @@
     <mat-form-field appearance="outline">
       <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher une phrase" #input />
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addPost()">Ajouter une phrase</button>
+    <button mat-raised-button color="primary" (click)="addSentence()">Ajouter une phrase</button>
   </div>
 
   <div class="table-container mat-elevation-z8">
@@ -44,6 +44,9 @@
         <td mat-cell *matCellDef="let row">
           <button mat-icon-button (click)="editSentence(row)">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteSentence(row)">
+            <mat-icon>delete</mat-icon>
           </button>
         </td>
       </ng-container>

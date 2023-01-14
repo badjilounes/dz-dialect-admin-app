@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -18,12 +18,19 @@ import {
   catchError,
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   merge,
   of,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs';
+import { ConfirmDialogModule } from 'src/app/shared/confirm-dialog/confirm-dialog.module';
+import {
+  ConfirmButtonColor,
+  ConfirmDialogService,
+} from 'src/app/shared/confirm-dialog/confirm-dialog.service';
 import { SentenceHttpService, SentenceResponseDto } from 'src/clients/dz-dialect-api';
 import { AddSentenceComponent } from './add-sentence/add-sentence.component';
 
@@ -45,6 +52,7 @@ import { AddSentenceComponent } from './add-sentence/add-sentence.component';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    ConfirmDialogModule,
   ],
 })
 export class SentenceComponent implements AfterViewInit {
@@ -65,6 +73,8 @@ export class SentenceComponent implements AfterViewInit {
     private readonly paginatorIntl: MatPaginatorIntl,
     private readonly sentenceHttpService: SentenceHttpService,
     private readonly title: Title,
+    private readonly confirm: ConfirmDialogService,
+    private readonly snackBar: MatSnackBar,
   ) {
     this.title.setTitle('Phrases');
     this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
@@ -132,7 +142,7 @@ export class SentenceComponent implements AfterViewInit {
     this.paginator.pageIndex = 0;
   }
 
-  addPost() {
+  addSentence() {
     const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
 
     this.dialog.open(AddSentenceComponent, {
@@ -151,5 +161,30 @@ export class SentenceComponent implements AfterViewInit {
       width: '100%',
       height: isHandset ? '100%' : undefined,
     });
+  }
+
+  deleteSentence(sentence: SentenceResponseDto) {
+    this.confirm
+      .confirm({
+        data: {
+          title: 'Supprimer la phrase',
+          content: `Êtes-vous sûr de vouloir supprimer la phrase "${sentence.fr}" ?`,
+          cancelLabel: 'Annuler',
+          acceptLabel: 'Supprimer',
+          acceptButtonColor: ConfirmButtonColor.WARN,
+        },
+      })
+      .pipe(
+        filter((result) => !!result),
+        switchMap(() => this.sentenceHttpService.deleteSentence(sentence.id)),
+        tap(() => this.paginator.page.emit()),
+        tap(() =>
+          this.snackBar.open(`La phrase "${sentence.fr}" a été supprimée`, 'Fermer', {
+            duration: 2000,
+          }),
+        ),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 }

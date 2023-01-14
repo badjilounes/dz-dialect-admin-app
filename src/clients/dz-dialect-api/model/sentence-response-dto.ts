@@ -12,6 +12,7 @@
 
 
 export interface SentenceResponseDto { 
+    id: string;
     dz: string;
     dz_ar: string;
     fr: string;
