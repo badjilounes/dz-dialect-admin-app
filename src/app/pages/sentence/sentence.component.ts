@@ -147,8 +147,8 @@ export class SentenceComponent implements AfterViewInit {
 
     const dialogRef = this.dialog.open(AddSentenceComponent, {
       width: '100%',
-      maxWidth: isHandset ? '100%' : '65vw',
-      maxHeight: isHandset ? '100vh' : '85vh',
+      maxWidth: isHandset ? '95vw' : '65vw',
+      maxHeight: '95vh',
       panelClass: 'add-sentence-dialog',
     });
 
