@@ -146,9 +146,9 @@ export class SentenceComponent implements AfterViewInit {
     const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
 
     const dialogRef = this.dialog.open(AddSentenceComponent, {
-      maxWidth: '500px',
       width: '100%',
-      height: isHandset ? '100%' : undefined,
+      maxWidth: isHandset ? '100%' : '85vw ',
+      maxHeight: isHandset ? '100vh' : '85vh',
       panelClass: 'add-sentence-dialog',
     });
 
@@ -168,9 +168,9 @@ export class SentenceComponent implements AfterViewInit {
 
     this.dialog.open(AddSentenceComponent, {
       data,
-      maxWidth: '500px',
       width: '100%',
-      height: isHandset ? '100%' : undefined,
+      maxWidth: isHandset ? '100%' : '85vw ',
+      maxHeight: isHandset ? '100vh' : '85vh',
     });
   }
 

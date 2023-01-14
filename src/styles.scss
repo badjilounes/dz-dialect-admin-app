@@ -5,5 +5,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
 
 .add-sentence-dialog .mat-dialog-container {
+  display: flex;
+  flex-direction: column;
   padding: 0;
 }
