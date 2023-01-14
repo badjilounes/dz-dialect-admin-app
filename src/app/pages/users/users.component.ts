@@ -133,10 +133,14 @@ export class UsersComponent implements AfterViewInit {
     this.usersHttpService
       .updateAdmin({ userId, isAdmin })
       .pipe(
-        tap(() => this.snackBar.open('Opération effectuée', 'OK', { duration: 3000 })),
+        tap(() =>
+          this.snackBar.open("Les droits de l'utilisateur ont bien été modifié", 'Fermer', {
+            duration: 3000,
+          }),
+        ),
         tap(() => this.paginator.page.emit()),
         catchError((error) => {
-          this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+          this.snackBar.open(error.error.message, 'Fermer', { duration: 3000 });
           return EMPTY;
         }),
         untilDestroyed(this),

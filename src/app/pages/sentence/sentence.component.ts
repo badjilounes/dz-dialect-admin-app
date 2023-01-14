@@ -145,11 +145,22 @@ export class SentenceComponent implements AfterViewInit {
   addSentence() {
     const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
 
-    this.dialog.open(AddSentenceComponent, {
+    const dialogRef = this.dialog.open(AddSentenceComponent, {
       maxWidth: '500px',
       width: '100%',
       height: isHandset ? '100%' : undefined,
+      panelClass: 'add-sentence-dialog',
     });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((result) => !!result),
+        tap(() => this.snackBar.open('La phrase a bien été ajoutée', 'Fermer', { duration: 2000 })),
+        tap(() => this.paginator.firstPage()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   editSentence(data: SentenceResponseDto) {

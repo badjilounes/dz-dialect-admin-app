@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 type ButtonOption = {
@@ -20,18 +20,21 @@ export class ButtonSentenceComponent implements OnInit {
   @Input() parentForm: FormGroup = new FormGroup([]);
   @Input() controlName: string = '';
   @Input() options: ButtonOption[] = [];
+  @Input() required = false;
 
   formControl = new FormControl();
 
   constructor() {}
 
   ngOnInit(): void {
-    this.formControl.valueChanges.subscribe((value) => console.log('valeur reçue', value));
+    if (this.options.length > 0) {
+      this.formControl.setValue(this.options[0].value);
+    }
 
-    this.addGroupToParent();
-  }
+    if (this.required) {
+      this.formControl.setValidators(Validators.required);
+    }
 
-  private addGroupToParent(): void {
     this.parentForm.addControl(this.controlName, this.formControl);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -14,18 +14,17 @@ export class TextSentenceComponent implements OnInit {
   @Input() name: string = '';
   @Input() label: string = '';
   @Input() formData: FormGroup = new FormGroup([]);
+  @Input() required = false;
 
   formControl = new FormControl();
 
   constructor() {}
 
   ngOnInit(): void {
-    this.formControl.valueChanges.subscribe((value) => console.log('valeur reçue', value));
+    if (this.required) {
+      this.formControl.setValidators(Validators.required);
+    }
 
-    this.addGroupToParent();
-  }
-
-  private addGroupToParent(): void {
     this.formData.addControl(this.name, this.formControl);
   }
 }

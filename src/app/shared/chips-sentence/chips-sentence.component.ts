@@ -1,7 +1,7 @@
 import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,18 +21,22 @@ export class ChipsSentenceComponent implements OnInit {
   @Input() label: string = '';
   @Input() formChips: FormGroup = new FormGroup([]);
   @Input() nameChips: string = '';
+  @Input() required = false;
 
   formArray = new FormArray<FormControl>([]);
+
+  addOnBlur = true;
+  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
 
   constructor() {}
 
   ngOnInit(): void {
-    this.formArray.valueChanges.subscribe((value) => console.log('valeur reçue', value));
-    this.addGroupToParent();
-  }
+    if (this.required) {
+      this.formArray.setValidators(Validators.required);
+    }
 
-  addOnBlur = true;
-  readonly separatorKeysCodes = [ENTER, COMMA, SPACE] as const;
+    this.formChips.addControl(this.nameChips, this.formArray);
+  }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -50,9 +54,5 @@ export class ChipsSentenceComponent implements OnInit {
     if (index >= 0) {
       this.formArray.removeAt(index);
     }
-  }
-
-  private addGroupToParent(): void {
-    this.formChips.addControl(this.nameChips, this.formArray);
   }
 }

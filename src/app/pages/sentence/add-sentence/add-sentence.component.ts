@@ -50,9 +50,8 @@ export class AddSentenceComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getValue() {
+  addSentence() {
     if (this.parentForm.valid) {
-      // const user = JSON.parse(localStorage.getItem('user') || '{}')
       const payload: CreateSentenceDto = {
         dz: this.parentForm.value.dz,
         dz_ar: this.parentForm.value.dz_ar,

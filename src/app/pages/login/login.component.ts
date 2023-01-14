@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     const error = this.route.snapshot.queryParams['error'];
     if (error) {
-      this.snackBar.open(error, 'OK', { duration: 3000 });
+      this.snackBar.open(error, 'Fermer', { duration: 3000 });
     }
   }
 
@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
         tap(({ token }) => this.userAppStore.setAsAuthenticated(token)),
         tap(() => this.router.navigate(['/home'])),
         catchError((error) => {
-          this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+          this.snackBar.open(error.error.message, 'Fermer', { duration: 3000 });
           return EMPTY;
         }),
         untilDestroyed(this),
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         tap(({ url }) => (window.location.href = url)),
         catchError((error) => {
-          this.snackBar.open(error.error.message, 'OK', { duration: 3000 });
+          this.snackBar.open(error.error.message, 'Fermer', { duration: 3000 });
           return EMPTY;
         }),
         untilDestroyed(this),
