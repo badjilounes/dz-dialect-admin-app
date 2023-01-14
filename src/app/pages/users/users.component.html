@@ -1,19 +1,29 @@
-<div class="users-container">
+<div class="page-container">
   <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
 
-  <div class="users-header-container">
+  <div class="page-header-container">
     <button mat-raised-button color="primary">Ajouter un utilisateur</button>
 
     <mat-form-field appearance="outline">
       <mat-label>Rechercher un utilisateur</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Entrer un mot" #input />
+      <input matInput (keyup)="applyFilter(input.value)" placeholder="Entrer un mot" #input />
+      <button
+        *ngIf="input.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="input.value = ''; applyFilter(input.value)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
   <div class="table-container mat-elevation-z8">
     <table
+      class="mat-elevation-z8"
       mat-table
       [dataSource]="data"
       class="example-table"
@@ -58,6 +68,14 @@
         </td>
       </ng-container>
 
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4" *ngIf="input.value">
+          Aucun utilisateur ne correspond à la recherche "{{ input.value }}"
+        </td>
+        <td class="mat-cell" colspan="4" *ngIf="!input.value">
+          Aucun utilisateur, pour en ajouter cliquez sur le bouton "Ajouter un utilisateur"
+        </td>
+      </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>

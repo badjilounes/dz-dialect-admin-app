@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -41,6 +42,7 @@ import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identi
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
   ],
 })
 export class UsersComponent implements AfterViewInit {
@@ -122,8 +124,8 @@ export class UsersComponent implements AfterViewInit {
       .subscribe((data) => (this.data = data));
   }
 
-  applyFilter(event: Event) {
-    this.query$.next((event.target as HTMLInputElement).value);
+  applyFilter(query: string) {
+    this.query$.next(query);
     this.paginator.pageIndex = 0;
   }
 

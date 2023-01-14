@@ -137,8 +137,8 @@ export class SentenceComponent implements AfterViewInit {
       .subscribe((data) => (this.data = data));
   }
 
-  applyFilter(event: Event) {
-    this.query$.next((event.target as HTMLInputElement).value);
+  applyFilter(query: string) {
+    this.query$.next(query);
     this.paginator.pageIndex = 0;
   }
 

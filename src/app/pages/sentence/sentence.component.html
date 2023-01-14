@@ -1,24 +1,34 @@
-<div class="sentence-container">
+<div class="page-container">
   <div class="loading-shade" *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
 
-  <div class="sentence-header-container">
+  <div class="page-header-container">
     <button mat-raised-button color="primary" (click)="addSentence()">Ajouter une phrase</button>
 
     <mat-form-field appearance="outline">
       <mat-label>Rechercher une phrase</mat-label>
       <input
         matInput
-        (keyup)="applyFilter($event)"
+        (keyup)="applyFilter(input.value)"
         placeholder="Entrer un mot contenu dans votre phrase"
         #input
       />
+      <button
+        *ngIf="input.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="input.value = ''; applyFilter(input.value)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
   <div class="table-container mat-elevation-z8">
     <table
+      class="mat-elevation-z8"
       mat-table
       [dataSource]="data"
       class="example-table"
@@ -58,6 +68,14 @@
         </td>
       </ng-container>
 
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4" *ngIf="input.value">
+          Aucune phrase ne correspond à la recherche "{{ input.value }}"
+        </td>
+        <td class="mat-cell" colspan="4" *ngIf="!input.value">
+          Aucune phrase, pour en ajouter cliquez sur le bouton "Ajouter une phrase"
+        </td>
+      </tr>
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
