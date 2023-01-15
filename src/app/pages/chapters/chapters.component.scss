@@ -1,19 +1,95 @@
 :host {
-  display: grid;
-  grid-template-rows: min-content auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+
+  .mat-form-field ::ng-deep .mat-form-field-wrapper {
+    padding: 0;  
+    margin: 0;
+  }  
 }
 
-.chapters-container {
+.page-container {
   position: relative;
-  height: 100%;
+  max-height: 100%;
   display: grid;
-  grid-template-rows: min-content auto;
-  gap: 12px;
+  grid-template-rows: min-content auto min-content;
+  gap: 8px;
   padding: 0 12px;
 }
 
-.chapters-header-container {
+.page-header-container {
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
-  padding: 8px 0;
+  gap: 8px;
+  margin-top: 12px;
+
+  button {
+    width: fit-content;
+    display: flex;
+    align-self: flex-end;
+  }
+
+  .mat-form-field {
+    width: 100%;
+    flex: 1;
+  }
 }
+
+.table-container {
+  position: relative;
+  overflow: auto;
+  max-height: 100%;
+  border-radius: 8px;
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+}
+
+.mat-paginator {
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-cell{
+  max-width: 15vw;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &:not(:last-of-type) {
+    padding-right: 16px;
+  }
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 16px;
+}
+
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+  padding-right: 16px;
+}
+
+.mat-column-actions{
+  width: 80px;
+  text-align: center;
+}
+

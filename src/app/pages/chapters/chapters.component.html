@@ -1,5 +1,96 @@
-<div class="chapters-container">
-  <div class="chapters-header-container">
-    <button mat-raised-button color="primary">Ajouter un chapître</button>
+<div class="page-container">
+  <div class="loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
+
+  <div class="page-header-container">
+    <button mat-raised-button color="primary" (click)="addOrEditChapter()">
+      Ajouter une phrase
+    </button>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Rechercher un chapître</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter(input.value)"
+        placeholder="Entrer un mot contenu dans votre chapître"
+        #input
+      />
+      <button
+        *ngIf="input.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="input.value = ''; applyFilter(input.value)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="table-container mat-elevation-z8">
+    <table
+      class="mat-elevation-z8"
+      mat-table
+      [dataSource]="data"
+      class="example-table"
+      matSort
+      matSortActive="created"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
+      <!-- Title Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let row" [title]="row.name">{{ row.name }}</td>
+      </ng-container>
+
+      <!-- State Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let row" [title]="row.description">{{ row.description }}</td>
+      </ng-container>
+
+      <!-- Created Column -->
+      <ng-container matColumnDef="isPresentation">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Présentation</th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon *ngIf="row.isPresentation">done</mat-icon>
+          <mat-icon *ngIf="!row.isPresentation">close</mat-icon>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Actions</th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="addOrEditChapter(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteChapter(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4" *ngIf="input.value">
+          Aucun chapître ne correspond à la recherche "{{ input.value }}"
+        </td>
+        <td class="mat-cell" colspan="4" *ngIf="!input.value">
+          Aucun chapître, pour en ajouter cliquez sur le bouton "Ajouter une phrase"
+        </td>
+      </tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of GitHub search results"
+  ></mat-paginator>
 </div>
