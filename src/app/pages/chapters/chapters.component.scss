@@ -14,7 +14,7 @@
   position: relative;
   max-height: 100%;
   display: grid;
-  grid-template-rows: min-content auto min-content;
+  grid-template-rows: min-content auto;
   gap: 8px;
   padding: 0 12px;
 }
@@ -38,21 +38,15 @@
   }
 }
 
-.table-container {
+.list-container {
   position: relative;
   overflow: auto;
   max-height: 100%;
-  border-radius: 8px;
-
-  table {
-    width: 100%;
-    table-layout: fixed;
-  }
-}
-
-.mat-paginator {
-  border-radius: 8px;
-  margin-bottom: 12px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
 }
 
 .loading-shade {
@@ -68,28 +62,52 @@
   justify-content: center;
 }
 
-.mat-cell{
-  max-width: 15vw;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+.mat-expansion-panel {
   box-sizing: border-box;
+  cursor: move;
+  font-size: 14px;
+}
 
-  &:not(:last-of-type) {
-    padding-right: 16px;
+.mat-expansion-panel-header-description {
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+
+  .description {
+    width: 100%;
+  }
+
+  .move-icon {
+    cursor: move;
+    overflow: visible;
   }
 }
 
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-  padding-left: 16px;
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
-th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-  padding-right: 16px;
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.mat-column-actions{
-  width: 80px;
-  text-align: center;
+.list-container.cdk-drop-list-dragging .mat-expansion-panel:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.drag-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.actions-container {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}

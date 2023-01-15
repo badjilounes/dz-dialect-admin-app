@@ -1,16 +1,18 @@
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
 import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
@@ -20,8 +22,8 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  merge,
   of,
+  shareReplay,
   startWith,
   switchMap,
   tap,
@@ -42,10 +44,7 @@ import { ChapterResponseDto, ProfessorHttpService } from 'src/clients/dz-dialect
   standalone: true,
   imports: [
     CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule,
     MatSnackBarModule,
     MatButtonModule,
     MatDialogModule,
@@ -53,50 +52,32 @@ import { ChapterResponseDto, ProfessorHttpService } from 'src/clients/dz-dialect
     MatFormFieldModule,
     MatInputModule,
     ConfirmDialogModule,
+    DragDropModule,
+    MatExpansionModule,
+    MatSlideToggleModule,
+    MatChipsModule,
   ],
 })
 export class ChaptersComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'description', 'isPresentation', 'actions'];
   data: ChapterResponseDto[] = [];
-
   query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  pageIndex = 0;
-  pageSize = 10;
-  length = 0;
   isLoadingResults = true;
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay(),
+  );
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly breakpointObserver: BreakpointObserver,
-    private readonly paginatorIntl: MatPaginatorIntl,
     private readonly professorHttpService: ProfessorHttpService,
     private readonly title: Title,
     private readonly confirm: ConfirmDialogService,
     private readonly snackBar: MatSnackBar,
   ) {
     this.title.setTitle('Chapîtres');
-    this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
-    this.paginatorIntl.nextPageLabel = 'Page suivante';
-    this.paginatorIntl.previousPageLabel = 'Page précédente';
-    this.paginatorIntl.firstPageLabel = 'Première page';
-    this.paginatorIntl.lastPageLabel = 'Dernière page';
-    this.paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
-      if (length === 0 || pageSize === 0) {
-        return `0 sur ${length}`;
-      }
-
-      length = Math.max(length, 0);
-
-      const startIndex = page * pageSize;
-
-      // If the start index exceeds the list length, do not try and fix the end index to the end.
-      const endIndex =
-        startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-
-      return `${startIndex + 1} - ${endIndex} sur ${length}`;
-    };
   }
 
   ngAfterViewInit(): void {
@@ -106,40 +87,17 @@ export class ChaptersComponent implements AfterViewInit {
       untilDestroyed(this),
     );
 
-    merge(this.paginator.page, debouncedQuery$)
+    debouncedQuery$
       .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.professorHttpService
-            .searchChapter(this.paginator.pageIndex, this.paginator.pageSize, this.query$.value)
-            .pipe(catchError(() => of(null)));
-        }),
-        map((data) => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-
-          if (data === null) {
-            return [];
-          }
-
-          // Only refresh the result length if there is new data. In case of rate
-          // limit errors, we do not want to reset the paginator to zero, as that
-          // would prevent users from re-triggering requests.
-          this.length = data.length;
-          this.pageIndex = data.pageIndex;
-          this.pageSize = data.pageSize;
-
-          return data.elements;
-        }),
+        startWith(''),
+        tap((query) => this.loadData(query)),
         untilDestroyed(this),
       )
-      .subscribe((data) => (this.data = data));
+      .subscribe();
   }
 
   applyFilter(query: string) {
     this.query$.next(query);
-    this.paginator.pageIndex = 0;
   }
 
   addOrEditChapter(data?: ChapterResponseDto) {
@@ -166,7 +124,7 @@ export class ChaptersComponent implements AfterViewInit {
             },
           ),
         ),
-        tap(() => this.paginator.page.emit()),
+        tap(() => this.loadData(this.query$.value)),
         untilDestroyed(this),
       )
       .subscribe();
@@ -186,12 +144,37 @@ export class ChaptersComponent implements AfterViewInit {
       .pipe(
         filter((result) => !!result),
         switchMap(() => this.professorHttpService.deleteChapterId(chapter.id)),
-        tap(() => this.paginator.page.emit()),
+        tap(() => this.loadData(this.query$.value)),
         tap(() =>
           this.snackBar.open(`Le chapître "${chapter.name}" a été supprimée`, 'Fermer', {
             duration: 2000,
           }),
         ),
+        untilDestroyed(this),
+      )
+      .subscribe();
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+  }
+
+  private loadData(query: string): void {
+    this.isLoadingResults = true;
+    this.professorHttpService
+      .searchChapter(0, 200, query)
+      .pipe(
+        map((data) => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+
+          if (data === null) {
+            this.data = [];
+          }
+
+          this.data = data.elements;
+        }),
+        catchError(() => of(null)),
         untilDestroyed(this),
       )
       .subscribe();
