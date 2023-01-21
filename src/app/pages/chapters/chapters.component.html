@@ -28,7 +28,7 @@
     </mat-form-field>
   </div>
 
-  <div class="list-container" cdkDropList (cdkDropListDropped)="drop($event)">
+  <div class="list-container" cdkDropList (cdkDropListDropped)="onReorder($event)">
     <div class="drag-placeholder" *cdkDragPlaceholder></div>
 
     <mat-expansion-panel class="example-box" *ngFor="let chapter of data" cdkDrag>

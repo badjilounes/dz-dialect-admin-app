@@ -34,7 +34,11 @@ import {
   ConfirmButtonColor,
   ConfirmDialogService,
 } from 'src/app/shared/confirm-dialog/confirm-dialog.service';
-import { ChapterResponseDto, ProfessorHttpService } from 'src/clients/dz-dialect-training-api';
+import {
+  ChapterResponseDto,
+  ProfessorHttpService,
+  ReorderChaptersDto,
+} from 'src/clients/dz-dialect-training-api';
 
 @UntilDestroy()
 @Component({
@@ -155,8 +159,30 @@ export class ChaptersComponent implements AfterViewInit {
       .subscribe();
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  onReorder(event: CdkDragDrop<string[]>): void {
     moveItemInArray(this.data, event.previousIndex, event.currentIndex);
+
+    const chapters: ReorderChaptersDto = {
+      chapters: this.data.map((chapter, index) => ({
+        id: chapter.id,
+        order: index + 1,
+      })),
+    };
+
+    of()
+      .pipe(
+        startWith(null),
+        tap(() => (this.isLoadingResults = true)),
+        switchMap(() => this.professorHttpService.reorderChapters(chapters)),
+        tap(() => (this.isLoadingResults = false)),
+        tap(() =>
+          this.snackBar.open(`Les chapîtres ont bien été réordonnés`, 'Fermer', {
+            duration: 2000,
+          }),
+        ),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   private loadData(query: string): void {
