@@ -1,0 +1,18 @@
+<app-subnav-training-list>
+  <app-ui-sortable-crud [configuration]="configuration" subnavTrainingListContent>
+    <ng-template #itemTemplate let-course>
+      <div class="title">
+        <span>{{ course.name }}</span>
+      </div>
+
+      <span class="description" *ngIf="!(isHandset$ | async)">{{ course.description }}</span>
+
+      <button
+        mat-icon-button
+        [routerLink]="['/trainings', trainingId, 'courses', course.id, 'exams']"
+      >
+        <mat-icon>description</mat-icon>
+      </button>
+    </ng-template>
+  </app-ui-sortable-crud>
+</app-subnav-training-list>

@@ -1,0 +1,5 @@
+{
+  "question.type.WORD_LIST": "Liste de mots",
+  "question.type.SINGLE_CHOICE": "Choix unique",
+  "question.type.MULTIPLE_CHOICE": "Choix multiple"
+}

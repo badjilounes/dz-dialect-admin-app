@@ -3,29 +3,23 @@
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>
 
+  <mat-toolbar color="primary" *ngIf="!(isHandset$ | async)">Phrases</mat-toolbar>
+
   <div class="page-header-container">
-    <button mat-raised-button color="primary" (click)="addOrEditSentence()">
+    <button
+      mat-raised-button
+      color="primary"
+      class="mat-elevation-z0"
+      (click)="addOrEditSentence()"
+    >
       Ajouter une phrase
     </button>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Rechercher une phrase</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter(input.value)"
-        placeholder="Entrer un mot contenu dans votre phrase"
-        #input
-      />
-      <button
-        *ngIf="input.value"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="input.value = ''; applyFilter(input.value)"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+    <app-search-input
+      [label]="'Rechercher une phrase'"
+      [placeholder]="'Entrer un mot contenu dans votre phrase'"
+      (search)="applyFilter($event)"
+    ></app-search-input>
   </div>
 
   <div class="table-container">
@@ -70,10 +64,10 @@
       </ng-container>
 
       <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4" *ngIf="input.value">
-          Aucune phrase ne correspond à la recherche "{{ input.value }}"
+        <td class="mat-cell" colspan="4" *ngIf="query$.value">
+          Aucune phrase ne correspond à la recherche "{{ query$.value }}"
         </td>
-        <td class="mat-cell" colspan="4" *ngIf="!input.value">
+        <td class="mat-cell" colspan="4" *ngIf="!query$.value">
           Aucune phrase, pour en ajouter cliquez sur le bouton "Ajouter une phrase"
         </td>
       </tr>

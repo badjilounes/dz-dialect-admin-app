@@ -1,0 +1,68 @@
+<ng-container *ngrxLet="isHandset$; let isHandset">
+  <ng-container *ngIf="!isHandset; else handsetNavigation">
+    <mat-sidenav-container class="sidenav-container" autosize>
+      <mat-sidenav
+        #drawer
+        class="sidenav"
+        fixedInViewport
+        [attr.role]="'navigation'"
+        [mode]="'side'"
+        [opened]="true"
+        [style.width.px]="width"
+      >
+        <button mat-icon-button class="toggle-collapse-button" (click)="toggleSidenav()">
+          <mat-icon *ngIf="expanded">keyboard_double_arrow_left</mat-icon>
+          <mat-icon *ngIf="!expanded">keyboard_double_arrow_right</mat-icon>
+        </button>
+
+        <ng-container *ngIf="expanded">
+          <mat-toolbar>{{ title }}</mat-toolbar>
+          <mat-nav-list>
+            <a
+              class="item-link"
+              mat-list-item
+              *ngFor="let item of itemList"
+              [routerLink]="[item.link]"
+              routerLinkActive="active-link"
+              (click)="drawer.mode === 'over' && drawer.close()"
+            >
+              <span>{{ item.label }}</span>
+            </a>
+          </mat-nav-list>
+        </ng-container>
+      </mat-sidenav>
+      <mat-sidenav-content #content>
+        <ng-container [ngTemplateOutlet]="projectedContent"></ng-container>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </ng-container>
+
+  <ng-template #projectedContent>
+    <ng-content select="[subnavContent]"></ng-content>
+  </ng-template>
+
+  <ng-template #handsetNavigation>
+    <mat-expansion-panel #panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ title }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-nav-list>
+        <a
+          class="item-link"
+          mat-list-item
+          *ngFor="let item of itemList"
+          [routerLink]="[item.link]"
+          routerLinkActive="active-link"
+          (click)="panel.close()"
+        >
+          <span>{{ item.label }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-expansion-panel>
+    <div class="content">
+      <ng-container [ngTemplateOutlet]="projectedContent"></ng-container>
+    </div>
+  </ng-template>
+</ng-container>

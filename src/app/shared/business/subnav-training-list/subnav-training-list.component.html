@@ -1,0 +1,3 @@
+<app-subnav [itemList]="(trainingList$ | async) ?? []" [title]="'Formations'">
+  <ng-content select="[subnavTrainingListContent]" subnavContent></ng-content>
+</app-subnav>

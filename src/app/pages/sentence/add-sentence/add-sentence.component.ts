@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs';
-import { ButtonSentenceComponent } from 'src/app/shared/button-sentence/button-sentence.component';
-import { ChipsSentenceComponent } from 'src/app/shared/chips-sentence/chips-sentence.component';
-import { TextSentenceComponent } from 'src/app/shared/text-sentence/text-sentence.component';
+import { ButtonSentenceComponent } from 'src/app/shared/design-system/button-sentence/button-sentence.component';
+import { ChipsSentenceComponent } from 'src/app/shared/design-system/chips-sentence/chips-sentence.component';
+import { TextSentenceComponent } from 'src/app/shared/design-system/text-sentence/text-sentence.component';
 import {
   CreateSentenceDto,
   SentenceHttpService,

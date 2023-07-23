@@ -1,0 +1,99 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
+
+  app-chips-sentence ::ng-deep .mat-form-field-wrapper,
+  .mat-form-field ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 8px;
+  }
+}
+
+h1 {
+  display: flex;
+  flex: 0;
+  padding: 24px 0 0 24px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+  width: 100%;
+
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  max-height: 100%;
+  padding: 24px;
+  margin: 0;
+}
+
+.mat-dialog-actions {
+  width: 100%;
+  justify-content: flex-end;
+  position: relative;
+  right: 16px;
+  margin: 0;
+}
+
+.questions-title-container {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  .questions-title {
+    margin: 0;
+  }
+}
+
+.mat-card {
+  box-shadow: none;
+  border: 2px solid #eee;
+  border-radius: 8px;
+
+  .top-right-card-actions {
+    display: none;
+    width: fit-content;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+  }
+
+  &:hover .top-right-card-actions {
+    display: flex;
+  }
+
+  &:first-of-type {
+    margin-top: 8px;
+  }
+
+  &:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
+
+  .question-type-section {
+    margin-bottom: 12px;
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+
+
+
+
+  

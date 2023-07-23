@@ -1,0 +1,83 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+
+  .mat-nav-list ::ng-deep .mat-list-item-content {
+    padding: 0 24px;
+  }
+
+  .mat-expansion-panel ::ng-deep {
+    .mat-expansion-panel-body {
+      padding: 0;
+    }
+
+    .mat-nav-list {
+      padding: 0;
+    }
+
+    .mat-expansion-indicator::after {
+      color: black;
+    }
+  }
+}
+
+.item-link {
+  color: #000;
+  opacity: 0.7;
+
+  &.active-link{
+    opacity: 1;
+    color: #673ab7;
+    background-color: #d1c4e9;
+  }
+}
+
+.sidenav {
+  transition: width 250ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-drawer-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+  transition: margin-left 250ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.toggle-collapse-button {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 10;
+}
+
+.mat-expansion-panel-header,
+.mat-expansion-panel-header.mat-expanded:focus, .mat-expansion-panel-header.mat-expanded:hover,
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+  background: #f5f5f5;
+  font: 500 16px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+}
+
+.mat-expansion-panel-header {
+  padding: 0px 24px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}

@@ -1,0 +1,11 @@
+<app-subnav-training-list>
+  <app-subnav-course-list [trainingId]="trainingId" subnavTrainingListContent>
+    <app-ui-sortable-crud [configuration]="configuration" subnavCourseListContent>
+      <ng-template #itemTemplate let-course>
+        <div class="title">
+          <span>{{ course.name }}</span>
+        </div>
+      </ng-template>
+    </app-ui-sortable-crud>
+  </app-subnav-course-list>
+</app-subnav-training-list>

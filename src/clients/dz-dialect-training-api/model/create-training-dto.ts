@@ -9,11 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CreateTrainingExamDto } from './create-training-exam-dto';
 
 
 export interface CreateTrainingDto { 
-    chapterId: string;
-    exams: Array<CreateTrainingExamDto>;
+    name: string;
+    description: string;
+    isPresentation: boolean;
 }
 

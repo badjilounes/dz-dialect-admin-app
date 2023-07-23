@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <input matInput (keyup)="emitSearch(input.value)" [placeholder]="placeholder" #input />
+  <button
+    *ngIf="input.value"
+    matSuffix
+    mat-icon-button
+    aria-label="Clear"
+    class="clear-button"
+    (click)="input.value = ''; emitSearch(input.value)"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>

@@ -1,9 +1,11 @@
-.sidenav-container {
-  height: 100%;
+:host {
+  .mat-list-item ::ng-deep .mat-list-item-content {
+    gap: 12px;
+  }
 }
 
-.sidenav {
-  width: 200px;
+.sidenav-container {
+  height: 100%;
 }
 
 .sidenav .mat-toolbar {
@@ -23,20 +25,27 @@
   overflow: auto;
 }
 
-.active-link{
-  font-weight: bold;
-  color: #3f51b5;
-  background: rgba(63, 81, 181, 0.04);
+.mat-list-item {
+  color: black;
+  opacity: 0.4;
+
+  &.active-link{
+    opacity: 1;
+    color: #673ab7;
+    background-color: #d1c4e9;
+  }
 }
 
-.app-title {
-  font-size: 18px;
-  font-weight: bold;
-  line-height: 40px;
-  height: 40px;
-  display: block;
+.home-link {
+  opacity: 1;
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+
+.mat-icon-button {
   position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  top: 6px;
+  z-index: 10;
+  color: white;
 }

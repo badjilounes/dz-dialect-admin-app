@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+
+.title {
+  width: 100%;
+  margin-left: 8px;
+}
+

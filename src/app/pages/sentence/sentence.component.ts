@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
@@ -22,16 +23,19 @@ import {
   map,
   merge,
   of,
+  shareReplay,
   startWith,
   switchMap,
   tap,
 } from 'rxjs';
-import { ConfirmDialogModule } from 'src/app/shared/confirm-dialog/confirm-dialog.module';
+import { ConfirmDialogModule } from 'src/app/shared/design-system/confirm-dialog/confirm-dialog.module';
 import {
   ConfirmButtonColor,
   ConfirmDialogService,
-} from 'src/app/shared/confirm-dialog/confirm-dialog.service';
+} from 'src/app/shared/design-system/confirm-dialog/confirm-dialog.service';
 import { SentenceHttpService, SentenceResponseDto } from 'src/clients/dz-dialect-api';
+import { SearchInputComponent } from '../../shared/design-system/search-input/search-input.component';
+import { filterUndefined } from '../../shared/technical/operators/filter-undefined.operator';
 import { AddSentenceComponent } from './add-sentence/add-sentence.component';
 
 @UntilDestroy()
@@ -52,18 +56,25 @@ import { AddSentenceComponent } from './add-sentence/add-sentence.component';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
+    MatToolbarModule,
     ConfirmDialogModule,
+    SearchInputComponent,
   ],
 })
 export class SentenceComponent implements AfterViewInit {
   displayedColumns: string[] = ['fr', 'dz', 'dz_ar', 'actions'];
   data: SentenceResponseDto[] = [];
 
-  query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  query$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
   pageIndex = 0;
   pageSize = 10;
   length = 0;
   isLoadingResults = true;
+
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay(),
+  );
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -103,6 +114,7 @@ export class SentenceComponent implements AfterViewInit {
     const debouncedQuery$ = this.query$.pipe(
       distinctUntilChanged(),
       debounceTime(250),
+      filterUndefined(),
       untilDestroyed(this),
     );
 
@@ -150,7 +162,7 @@ export class SentenceComponent implements AfterViewInit {
       width: '100%',
       maxWidth: isHandset ? '100%' : '65vw',
       maxHeight: isHandset ? '100%' : '85vh',
-      panelClass: 'add-sentence-dialog',
+      panelClass: isHandset ? 'mobile-full-screen-dialog' : '',
     });
 
     dialogRef

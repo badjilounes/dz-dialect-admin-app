@@ -1,0 +1,27 @@
+<h1 mat-dialog-title *ngIf="!isEditMode">Ajouter un cours</h1>
+<h1 mat-dialog-title *ngIf="isEditMode">Modifier un cours</h1>
+<form [formGroup]="courseForm" (ngSubmit)="addOrEditCourse()">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close color="accent">Annuler</button>
+    <button mat-raised-button color="primary" *ngIf="!isEditMode">Ajouter le cours</button>
+    <button mat-raised-button color="primary" *ngIf="isEditMode">Modifier le cours</button>
+  </mat-dialog-actions>
+</form>

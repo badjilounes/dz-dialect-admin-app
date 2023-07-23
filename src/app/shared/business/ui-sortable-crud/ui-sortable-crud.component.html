@@ -1,0 +1,80 @@
+<div class="page-container" *ngrxLet="isLoadingResults$; let isLoading">
+  <div class="loading-shade" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-toolbar color="primary" *ngIf="!(isHandset$ | async)">{{ configuration.title }}</mat-toolbar>
+
+  <div class="page-header-container">
+    <button
+      mat-raised-button
+      color="primary"
+      class="mat-elevation-z0"
+      *ngIf="configuration.create"
+      (click)="onCreate()"
+    >
+      {{ configuration.create.buttonLabel }}
+    </button>
+
+    <app-search-input
+      [label]="'Rechercher un examen'"
+      [placeholder]="'Entrer un mot contenu dans votre examen'"
+      (search)="onSearch($event)"
+    ></app-search-input>
+  </div>
+
+  <ng-container *ngIf="configuration.reorder; else notSortable">
+    <div
+      class="list-container mat-elevation-z2"
+      cdkDropList
+      (cdkDropListDropped)="onReorder($event)"
+    >
+      <div class="drag-placeholder" *cdkDragPlaceholder></div>
+
+      <div class="list-item sortable" *ngFor="let item of itemList" cdkDrag>
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+
+        <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" *ngIf="configuration.delete" (click)="onDelete(item)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #notSortable>
+    <div class="list-container mat-elevation-z2">
+      <div class="drag-placeholder"></div>
+
+      <div class="list-item" *ngFor="let item of itemList">
+        <ng-container
+          [ngTemplateOutlet]="itemTemplate"
+          [ngTemplateOutletContext]="{ $implicit: item }"
+        ></ng-container>
+
+        <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="warn" *ngIf="configuration.delete" (click)="onDelete(item)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+
+  <mat-paginator
+    class="mat-elevation-z2"
+    [length]="length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page of GitHub search results"
+  ></mat-paginator>
+</div>

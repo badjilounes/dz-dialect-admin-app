@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<mat-sidenav-container class="sidenav-container" autosize>
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -6,33 +6,36 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
+    [style.width.px]="(isHandset$ | async) ? 250 : 56"
   >
-    <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
       <a
+        class="home-link"
         mat-list-item
-        [routerLink]="['/users']"
+        *ngIf="!(isHandset$ | async)"
+        [routerLink]="['/']"
         routerLinkActive="active-link"
-        (click)="drawer.mode === 'over' && drawer.close()"
-        >Utilisateurs</a
+        [routerLinkActiveOptions]="{ exact: true }"
+        [matTooltip]="'Accueil'"
+        [matTooltipPosition]="'right'"
       >
+        <mat-icon svgIcon="home"></mat-icon>
+      </a>
       <a
         mat-list-item
-        [routerLink]="['/sentences']"
+        *ngFor="let item of menuItems"
+        [routerLink]="[item.link]"
         routerLinkActive="active-link"
+        [matTooltip]="item.label"
+        [matTooltipPosition]="'right'"
         (click)="drawer.mode === 'over' && drawer.close()"
-        >Phrases</a
       >
-      <a
-        mat-list-item
-        [routerLink]="['/chapters']"
-        routerLinkActive="active-link"
-        (click)="drawer.mode === 'over' && drawer.close()"
-        >Chapîtres</a
-      >
+        <mat-icon>{{ item.icon }}</mat-icon>
+        <span *ngIf="isHandset$ | async">{{ item.label }}</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content [class.small-screen]="isHandset$ | async">
     <button
       type="button"
       aria-label="Toggle sidenav"
@@ -43,7 +46,8 @@
       <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
     </button>
 
-    <span *ngIf="isHandset$ | async" class="app-title">{{ title.getTitle() }}</span>
+    <mat-toolbar color="primary" *ngIf="isHandset$ | async">{{ title.getTitle() }}</mat-toolbar>
+
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>

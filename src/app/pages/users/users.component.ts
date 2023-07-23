@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,22 +10,26 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Title } from '@angular/platform-browser';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import {
   BehaviorSubject,
+  EMPTY,
   catchError,
   debounceTime,
   distinctUntilChanged,
-  EMPTY,
   map,
   merge,
   of,
+  shareReplay,
   startWith,
   switchMap,
   tap,
 } from 'rxjs';
 import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identity-api';
+import { SearchInputComponent } from '../../shared/design-system/search-input/search-input.component';
+import { filterUndefined } from '../../shared/technical/operators/filter-undefined.operator';
 
 @UntilDestroy()
 @Component({
@@ -43,17 +48,24 @@ import { UserResponseDto, UsersHttpService } from 'src/clients/dz-dialect-identi
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatToolbarModule,
+    SearchInputComponent,
   ],
 })
 export class UsersComponent implements AfterViewInit {
   displayedColumns: string[] = ['email', 'username', 'name', 'provider', 'isAdmin'];
   data: UserResponseDto[] = [];
 
-  query$: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  query$: BehaviorSubject<string | undefined> = new BehaviorSubject<string | undefined>(undefined);
   pageIndex = 0;
   pageSize = 10;
   length = 0;
   isLoadingResults = true;
+
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay(),
+  );
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -62,6 +74,7 @@ export class UsersComponent implements AfterViewInit {
     private readonly snackBar: MatSnackBar,
     private readonly paginatorIntl: MatPaginatorIntl,
     private readonly title: Title,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
     this.title.setTitle('Utilisateurs');
     this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
@@ -90,6 +103,7 @@ export class UsersComponent implements AfterViewInit {
     const debouncedQuery$ = this.query$.pipe(
       distinctUntilChanged(),
       debounceTime(250),
+      filterUndefined(),
       untilDestroyed(this),
     );
 
@@ -99,7 +113,7 @@ export class UsersComponent implements AfterViewInit {
         switchMap(() => {
           this.isLoadingResults = true;
           return this.usersHttpService
-            .getAll(this.paginator.pageIndex, this.paginator.pageSize, this.query$.value)
+            .getAll(this.paginator.pageIndex, this.paginator.pageSize, this.query$.value ?? '')
             .pipe(catchError(() => of(null)));
         }),
         map((data) => {

@@ -1,0 +1,17 @@
+<app-ui-sortable-crud [configuration]="configuration">
+  <ng-template #itemTemplate let-training>
+    <div class="title">
+      <span>{{ training.name }}</span>
+    </div>
+
+    <span class="description" *ngIf="!(isHandset$ | async)">{{ training.description }}</span>
+
+    <mat-chip-list *ngIf="training.isPresentation">
+      <mat-chip color="accent" selected>P</mat-chip>
+    </mat-chip-list>
+
+    <button mat-icon-button [routerLink]="['/trainings', training.id, 'courses']">
+      <mat-icon>description</mat-icon>
+    </button>
+  </ng-template>
+</app-ui-sortable-crud>

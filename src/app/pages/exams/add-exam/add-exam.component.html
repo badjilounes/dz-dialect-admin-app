@@ -1,0 +1,68 @@
+<h1 mat-dialog-title *ngIf="!isEditMode">Ajouter un examen</h1>
+<h1 mat-dialog-title *ngIf="isEditMode">Modifier un examen</h1>
+<form [formGroup]="examForm" (ngSubmit)="addOrEditExam()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <div class="questions-title-container">
+      <h2 class="questions-title">Questions</h2>
+
+      <button mat-stroked-button type="button" color="primary" (click)="addQuestion()">
+        Nouvelle question
+      </button>
+    </div>
+
+    <mat-card
+      *ngFor="let question of questionArray.controls; let questionIndex = index"
+      [formGroup]="question"
+    >
+      <div class="top-right-card-actions">
+        <button mat-icon-button type="button" (click)="addAfterQuestion(questionIndex)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button type="button" color="warn" (click)="removeQuestion(questionIndex)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <section class="question-type-section">
+        <label>Type de question</label>
+        <mat-button-toggle-group aria-label="Question type" formControlName="type">
+          <mat-button-toggle *ngFor="let option of questionTypeOptions" [value]="option">{{
+            'question.type.' + option | translate
+          }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </section>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Question</mat-label>
+        <input matInput formControlName="question" />
+      </mat-form-field>
+
+      <app-chips-sentence
+        [label]="'Réponse'"
+        [parentForm]="question"
+        [nameChips]="'answer'"
+        [value]="question.get('answer')?.value"
+        appearance="outline"
+      ></app-chips-sentence>
+
+      <app-chips-sentence
+        [label]="'Propositions'"
+        [parentForm]="question"
+        [nameChips]="'propositions'"
+        [value]="question.get('propositions')?.value"
+        appearance="outline"
+      ></app-chips-sentence>
+    </mat-card>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close color="accent">Annuler</button>
+    <button mat-raised-button color="primary" *ngIf="!isEditMode">Ajouter l'examen</button>
+    <button mat-raised-button color="primary" *ngIf="isEditMode">Modifier l'examen</button>
+  </mat-dialog-actions>
+</form>
