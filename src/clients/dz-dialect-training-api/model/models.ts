@@ -10,6 +10,8 @@ export * from './create-training-dto';
 export * from './create-training-exam-question-response-dto';
 export * from './create-training-exam-response-dto';
 export * from './create-training-response-dto';
+export * from './delete-course-dto';
+export * from './delete-exam-dto';
 export * from './edit-course-dto';
 export * from './edit-exam-dto';
 export * from './edit-exam-question-dto';

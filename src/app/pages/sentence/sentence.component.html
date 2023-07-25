@@ -1,86 +1,15 @@
-<div class="page-container">
-  <div class="loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-  </div>
+<app-ui-sortable-crud [configuration]="configuration">
+  <ng-template #itemTemplate let-sentence>
+    <div class="fr" [attr.title]="sentence.fr">
+      <span>{{ sentence.fr }}</span>
+    </div>
 
-  <mat-toolbar color="primary" *ngIf="!(isHandset$ | async)">Phrases</mat-toolbar>
+    <div class="dz" [attr.title]="sentence.dz">
+      <span>{{ sentence.dz }}</span>
+    </div>
 
-  <div class="page-header-container">
-    <button
-      mat-raised-button
-      color="primary"
-      class="mat-elevation-z0"
-      (click)="addOrEditSentence()"
-    >
-      Ajouter une phrase
-    </button>
-
-    <app-search-input
-      [label]="'Rechercher une phrase'"
-      [placeholder]="'Entrer un mot contenu dans votre phrase'"
-      (search)="applyFilter($event)"
-    ></app-search-input>
-  </div>
-
-  <div class="table-container">
-    <table
-      mat-table
-      [dataSource]="data"
-      class="example-table"
-      matSort
-      matSortActive="created"
-      matSortDisableClear
-      matSortDirection="desc"
-    >
-      <!-- Title Column -->
-      <ng-container matColumnDef="fr">
-        <th mat-header-cell *matHeaderCellDef>Français</th>
-        <td mat-cell *matCellDef="let row" [title]="row.fr">{{ row.fr }}</td>
-      </ng-container>
-
-      <!-- State Column -->
-      <ng-container matColumnDef="dz">
-        <th mat-header-cell *matHeaderCellDef>Arabe</th>
-        <td mat-cell *matCellDef="let row" [title]="row.dz">{{ row.dz }}</td>
-      </ng-container>
-
-      <!-- Created Column -->
-      <ng-container matColumnDef="dz_ar">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Algérien</th>
-        <td mat-cell *matCellDef="let row" [title]="row.dz_ar">{{ row.dz_ar }}</td>
-      </ng-container>
-
-      <!-- Actions Column -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>Actions</th>
-        <td mat-cell *matCellDef="let row">
-          <button mat-icon-button (click)="addOrEditSentence(row)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="deleteSentence(row)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr class="mat-row" *matNoDataRow>
-        <td class="mat-cell" colspan="4" *ngIf="query$.value">
-          Aucune phrase ne correspond à la recherche "{{ query$.value }}"
-        </td>
-        <td class="mat-cell" colspan="4" *ngIf="!query$.value">
-          Aucune phrase, pour en ajouter cliquez sur le bouton "Ajouter une phrase"
-        </td>
-      </tr>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
-
-  <mat-paginator
-    [length]="length"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    aria-label="Select page of GitHub search results"
-  ></mat-paginator>
-</div>
+    <div class="dz-ar" [attr.title]="sentence.dz_ar">
+      <span>{{ sentence.dz_ar }}</span>
+    </div>
+  </ng-template>
+</app-ui-sortable-crud>

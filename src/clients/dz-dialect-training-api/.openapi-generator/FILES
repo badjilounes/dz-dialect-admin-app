@@ -21,6 +21,8 @@ model/create-training-dto.ts
 model/create-training-exam-question-response-dto.ts
 model/create-training-exam-response-dto.ts
 model/create-training-response-dto.ts
+model/delete-course-dto.ts
+model/delete-exam-dto.ts
 model/edit-course-dto.ts
 model/edit-exam-dto.ts
 model/edit-exam-question-dto.ts

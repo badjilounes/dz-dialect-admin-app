@@ -17,8 +17,9 @@
     </button>
 
     <app-search-input
-      [label]="'Rechercher un examen'"
-      [placeholder]="'Entrer un mot contenu dans votre examen'"
+      *ngIf="configuration.search"
+      [label]="configuration.search.label"
+      [placeholder]="configuration.search.placeholder"
       (search)="onSearch($event)"
     ></app-search-input>
   </div>
@@ -31,41 +32,59 @@
     >
       <div class="drag-placeholder" *cdkDragPlaceholder></div>
 
-      <div class="list-item sortable" *ngFor="let item of itemList" cdkDrag>
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ $implicit: item }"
-        ></ng-container>
+      <ng-container *ngIf="itemList.length; else emptyState">
+        <div class="list-item sortable" *ngFor="let item of itemList" cdkDrag>
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ $implicit: item }"
+          ></ng-container>
 
-        <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
-          <mat-icon>edit</mat-icon>
-        </button>
+          <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
 
-        <button mat-icon-button color="warn" *ngIf="configuration.delete" (click)="onDelete(item)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+          <button
+            mat-icon-button
+            color="warn"
+            *ngIf="configuration.delete"
+            (click)="onDelete(item)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
     </div>
   </ng-container>
 
   <ng-template #notSortable>
     <div class="list-container mat-elevation-z2">
-      <div class="drag-placeholder"></div>
+      <ng-container *ngIf="itemList.length; else emptyState">
+        <div class="list-item" *ngFor="let item of itemList">
+          <ng-container
+            [ngTemplateOutlet]="itemTemplate"
+            [ngTemplateOutletContext]="{ $implicit: item }"
+          ></ng-container>
 
-      <div class="list-item" *ngFor="let item of itemList">
-        <ng-container
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ $implicit: item }"
-        ></ng-container>
+          <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
+            <mat-icon>edit</mat-icon>
+          </button>
 
-        <button mat-icon-button *ngIf="configuration.update" (click)="onUpdate(item)">
-          <mat-icon>edit</mat-icon>
-        </button>
+          <button
+            mat-icon-button
+            color="warn"
+            *ngIf="configuration.delete"
+            (click)="onDelete(item)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
 
-        <button mat-icon-button color="warn" *ngIf="configuration.delete" (click)="onDelete(item)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <span>{{ configuration.emptyState.withSearch(query$.value ?? '') }}</span>
     </div>
   </ng-template>
 

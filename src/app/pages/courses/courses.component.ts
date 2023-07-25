@@ -71,6 +71,16 @@ export class CoursesComponent implements OnInit {
   private buildUiConfiguration(): UiSortableCrudConfiguration<CourseResponseDto> {
     return {
       title: 'Cours',
+      emptyState: {
+        withSearch: (search: string) =>
+          search
+            ? `Aucun cours ne correspond à "${search}"`
+            : 'Aucun cours, cliquer sur "Ajouter un cours" pour en créer un',
+      },
+      search: {
+        label: 'Rechercher un cours',
+        placeholder: 'Nom du cours',
+      },
       create: {
         buttonLabel: 'Ajouter un cours',
         dialogComponent: AddCourseComponent,
@@ -102,11 +112,16 @@ export class CoursesComponent implements OnInit {
           this.snackBar.open(`Le cours "${course.name}" a été supprimé`, 'Fermer', {
             duration: 2000,
           }),
-        service$: (course: CourseResponseDto) => this.professorHttpService.deleteCourse(course.id),
+        service$: (course: CourseResponseDto) =>
+          this.professorHttpService.deleteCourse({
+            trainingId: this.trainingId,
+            courseId: course.id,
+          }),
       },
       reorder: {
         service$: (courses: CourseResponseDto[]) =>
           this.professorHttpService.reorderCourses({
+            trainingId: this.trainingId,
             courses: courses.map((course, index) => ({
               id: course.id,
               order: index + 1,

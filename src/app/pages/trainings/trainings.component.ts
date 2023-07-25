@@ -39,6 +39,16 @@ import { AddTrainingComponent } from './add-training/add-training.component';
 export class TrainingsComponent {
   configuration: UiSortableCrudConfiguration<TrainingResponseDto> = {
     title: 'Formations',
+    emptyState: {
+      withSearch: (search: string) =>
+        search
+          ? `Aucune formation ne correspond à "${search}"`
+          : 'Aucune formation, cliquer sur "Ajouter une formation" pour en créer une',
+    },
+    search: {
+      label: 'Rechercher une formation',
+      placeholder: 'Nom de la formation',
+    },
     create: {
       buttonLabel: 'Ajouter une formation',
       dialogComponent: AddTrainingComponent,

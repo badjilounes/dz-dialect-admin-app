@@ -11,13 +11,9 @@
  */
 
 
-export interface CreateCourseResponseDto { 
-    id: string;
-    name: string;
-    description: string;
+export interface DeleteExamDto { 
     trainingId: string;
-    order: number;
-    createdAt: string;
-    updatedAt: string;
+    courseId: string;
+    examId: string;
 }
 

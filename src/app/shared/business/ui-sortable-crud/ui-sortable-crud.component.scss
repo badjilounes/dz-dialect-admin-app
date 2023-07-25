@@ -11,15 +11,12 @@
   }
 }
 
-
 .page-container {
   display: grid;
-  grid-template-rows: min-content auto min-content;
   gap: 8px;
   overflow: auto;
   gap: 8px;
 }
-
 
 .page-header-container {
   display: flex;
@@ -78,6 +75,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  overflow: hidden;
 
   &.sortable {
     cursor: move;
@@ -138,4 +136,12 @@
   display: flex;
   width: 100%;
   justify-content: flex-end;
+}
+
+.empty-state {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
 }

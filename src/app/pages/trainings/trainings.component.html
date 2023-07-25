@@ -6,9 +6,11 @@
 
     <span class="description" *ngIf="!(isHandset$ | async)">{{ training.description }}</span>
 
-    <mat-chip-list *ngIf="training.isPresentation">
-      <mat-chip color="accent" selected>P</mat-chip>
-    </mat-chip-list>
+    <div class="presentation-indicator-container">
+      <mat-chip-list *ngIf="training.isPresentation">
+        <mat-chip color="accent" [disableRipple]="true" selected>P</mat-chip>
+      </mat-chip-list>
+    </div>
 
     <button mat-icon-button [routerLink]="['/trainings', training.id, 'courses']">
       <mat-icon>description</mat-icon>

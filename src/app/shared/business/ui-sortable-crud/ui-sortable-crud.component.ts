@@ -16,7 +16,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -52,6 +52,15 @@ type PaginatedResponse<T> = {
 
 export type UiSortableCrudConfiguration<T> = {
   title: string;
+
+  emptyState: {
+    withSearch(search: string): string;
+  };
+
+  search?: {
+    label: string;
+    placeholder: string;
+  };
 
   create?: {
     buttonLabel: string;
@@ -130,7 +139,29 @@ export class UiSortableCrudComponent<T> implements OnChanges, AfterViewInit {
     private readonly breakpointObserver: BreakpointObserver,
     private readonly confirm: ConfirmDialogService,
     private readonly dialog: MatDialog,
-  ) {}
+    private readonly paginatorIntl: MatPaginatorIntl,
+  ) {
+    this.paginatorIntl.itemsPerPageLabel = 'Éléments par page';
+    this.paginatorIntl.nextPageLabel = 'Page suivante';
+    this.paginatorIntl.previousPageLabel = 'Page précédente';
+    this.paginatorIntl.firstPageLabel = 'Première page';
+    this.paginatorIntl.lastPageLabel = 'Dernière page';
+    this.paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number) => {
+      if (length === 0 || pageSize === 0) {
+        return `0 sur ${length}`;
+      }
+
+      length = Math.max(length, 0);
+
+      const startIndex = page * pageSize;
+
+      // If the start index exceeds the list length, do not try and fix the end index to the end.
+      const endIndex =
+        startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+
+      return `${startIndex + 1} - ${endIndex} sur ${length}`;
+    };
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!changes['configuration'].firstChange) {

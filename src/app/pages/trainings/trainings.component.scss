@@ -21,8 +21,15 @@
   color: #999;
 }
 
-.mat-chip {
-  margin: 0 8px;
+.presentation-indicator-container {
+  display: flex;
+  align-items: center;
+  width: 90px;
+  height: 40px;
+
+  .mat-chip {
+    margin: 0 8px;
+  }  
 }
 
 .mat-icon-button {

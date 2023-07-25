@@ -64,7 +64,8 @@ export class AddExamComponent {
   constructor(
     private readonly professorHttpService: ProfessorHttpService,
     private readonly dialogRef: MatDialogRef<AddExamComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { exam?: ExamResponseDto; courseId: string },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { exam?: ExamResponseDto; trainingId: string; courseId: string },
   ) {}
 
   addQuestion(): void {
@@ -110,6 +111,7 @@ export class AddExamComponent {
 
   private addCourse() {
     const payload: CreateExamDto = {
+      trainingId: this.data.trainingId,
       name: this.examForm.value.name,
       courseId: this.examForm.value.courseId,
       questions: this.examForm.value.questions,
@@ -130,13 +132,15 @@ export class AddExamComponent {
     }
 
     const payload: EditExamDto = {
+      examId: this.data.exam.id,
+      trainingId: this.data.trainingId,
       name: this.examForm.value.name,
       courseId: this.examForm.value.courseId,
       questions: this.examForm.value.questions,
     };
 
     this.professorHttpService
-      .editExam(this.data.exam.id, payload)
+      .editExam(payload)
       .pipe(
         tap(() => this.dialogRef.close({ updated: true })),
         untilDestroyed(this),

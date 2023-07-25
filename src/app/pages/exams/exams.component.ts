@@ -60,11 +60,21 @@ export class ExamsComponent implements OnInit {
 
   private buildUiConfiguration(): UiSortableCrudConfiguration<ExamResponseDto> {
     return {
-      title: 'Cours',
+      title: 'Examens',
+      emptyState: {
+        withSearch: (search: string) =>
+          search
+            ? `Aucun examen ne correspond à "${search}"`
+            : 'Aucun examen, cliquer sur "Ajouter un examen" pour en créer un',
+      },
+      search: {
+        label: 'Rechercher un examen',
+        placeholder: "Nom de l'examen",
+      },
       create: {
         buttonLabel: 'Ajouter un examen',
         dialogComponent: AddExamComponent,
-        dialogData: () => ({ courseId: this.courseId }),
+        dialogData: () => ({ trainingId: this.trainingId, courseId: this.courseId }),
         onSuccess: () =>
           this.snackBar.open(`L'examen a bien été ajouté`, 'Fermer', { duration: 2000 }),
       },
@@ -74,7 +84,11 @@ export class ExamsComponent implements OnInit {
       },
       update: {
         dialogComponent: AddExamComponent,
-        dialogData: (exam: ExamResponseDto) => ({ exam, courseId: this.courseId }),
+        dialogData: (exam: ExamResponseDto) => ({
+          exam,
+          trainingId: this.trainingId,
+          courseId: this.courseId,
+        }),
         onSuccess: () =>
           this.snackBar.open(`L'examen a bien été modifié`, 'Fermer', { duration: 2000 }),
       },
@@ -92,11 +106,18 @@ export class ExamsComponent implements OnInit {
           this.snackBar.open(`L'examen "${exam.name}" a été supprimé`, 'Fermer', {
             duration: 2000,
           }),
-        service$: (exam: ExamResponseDto) => this.professorHttpService.deleteExam(exam.id),
+        service$: (exam: ExamResponseDto) =>
+          this.professorHttpService.deleteExam({
+            trainingId: this.trainingId,
+            courseId: this.courseId,
+            examId: exam.id,
+          }),
       },
       reorder: {
         service$: (exams: ExamResponseDto[]) =>
           this.professorHttpService.reorderExams({
+            trainingId: this.trainingId,
+            courseId: this.courseId,
             exams: exams.map((exam, index) => ({
               id: exam.id,
               order: index + 1,
