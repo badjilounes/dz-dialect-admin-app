@@ -28,14 +28,15 @@
         </button>
       </div>
 
-      <section class="question-type-section">
-        <label>Type de question</label>
-        <mat-button-toggle-group aria-label="Question type" formControlName="type">
-          <mat-button-toggle *ngFor="let option of questionTypeOptions" [value]="option">{{
-            'question.type.' + option | translate
-          }}</mat-button-toggle>
-        </mat-button-toggle-group>
-      </section>
+      <mat-form-field appearance="outline">
+        <mat-label>Type de question</mat-label>
+        <mat-select formControlName="type"
+          >>
+          <mat-option *ngFor="let option of questionTypeOptions" [value]="option">
+            {{ 'question.type.' + option | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Question</mat-label>

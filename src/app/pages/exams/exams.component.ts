@@ -62,10 +62,10 @@ export class ExamsComponent implements OnInit {
     return {
       title: 'Examens',
       emptyState: {
-        withSearch: (search: string) =>
-          search
-            ? `Aucun examen ne correspond à "${search}"`
-            : 'Aucun examen, cliquer sur "Ajouter un examen" pour en créer un',
+        withSearch: (search: string) => ({
+          title: search ? `Aucun examen ne correspond à "${search}"` : 'Aucun examen',
+          subtitle: search ? '' : 'Cliquer sur "Ajouter un examen" pour en créer un !',
+        }),
       },
       search: {
         label: 'Rechercher un examen',

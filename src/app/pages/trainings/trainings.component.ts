@@ -40,10 +40,10 @@ export class TrainingsComponent {
   configuration: UiSortableCrudConfiguration<TrainingResponseDto> = {
     title: 'Formations',
     emptyState: {
-      withSearch: (search: string) =>
-        search
-          ? `Aucune formation ne correspond à "${search}"`
-          : 'Aucune formation, cliquer sur "Ajouter une formation" pour en créer une',
+      withSearch: (search: string) => ({
+        title: search ? `Aucune formation ne correspond à "${search}"` : 'Aucune formation',
+        subtitle: search ? '' : 'Cliquer sur "Ajouter une formation" pour en créer une !',
+      }),
     },
     search: {
       label: 'Rechercher une formation',

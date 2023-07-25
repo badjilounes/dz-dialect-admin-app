@@ -84,7 +84,8 @@
 
   <ng-template #emptyState>
     <div class="empty-state">
-      <span>{{ configuration.emptyState.withSearch(query$.value ?? '') }}</span>
+      <div>{{ configuration.emptyState.withSearch(query$.value ?? '').title }}</div>
+      <div>{{ configuration.emptyState.withSearch(query$.value ?? '').subtitle }}</div>
     </div>
   </ng-template>
 

@@ -54,7 +54,7 @@ export type UiSortableCrudConfiguration<T> = {
   title: string;
 
   emptyState: {
-    withSearch(search: string): string;
+    withSearch(search: string): { title: string; subtitle: string };
   };
 
   search?: {
@@ -256,14 +256,13 @@ export class UiSortableCrudComponent<T> implements OnChanges, AfterViewInit {
     onSuccess: (item: T | undefined) => void,
     loadData: () => void,
   ): void {
-    const isHandset: boolean = this.breakpointObserver.isMatched(Breakpoints.Handset);
+    const isHandset = this.breakpointObserver.isMatched(Breakpoints.Handset);
 
     const dialogRef = this.dialog.open(dialogComponent, {
       data: dialogData(item),
-      width: '100%',
-      maxWidth: isHandset ? '100%' : '65vw',
-      maxHeight: isHandset ? '100%' : '85vh',
-      panelClass: isHandset ? 'mobile-full-screen-dialog' : '',
+      width: isHandset ? '100%' : undefined,
+      maxWidth: '90vw',
+      maxHeight: '85vh',
     });
 
     dialogRef

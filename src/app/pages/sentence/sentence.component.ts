@@ -27,10 +27,10 @@ export class SentenceComponent {
   configuration: UiSortableCrudConfiguration<SentenceResponseDto> = {
     title: 'Phrases',
     emptyState: {
-      withSearch: (search: string) =>
-        search
-          ? `Aucune phrase ne correspond à "${search}"`
-          : 'Aucune phrase, cliquer sur "Ajouter une phrase" pour en créer une',
+      withSearch: (search: string) => ({
+        title: search ? `Aucune phrase ne correspond à "${search}"` : 'Aucune phrase',
+        subtitle: search ? '' : 'Cliquer sur "Ajouter une phrase" pour en créer une !',
+      }),
     },
     search: {
       label: 'Rechercher une phrase',

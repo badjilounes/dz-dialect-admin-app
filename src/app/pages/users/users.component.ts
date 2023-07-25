@@ -53,10 +53,10 @@ export class UsersComponent {
     return {
       title: 'Utilisateurs',
       emptyState: {
-        withSearch: (search: string) =>
-          search
-            ? `Aucun utilisateur ne correspond à "${search}"`
-            : 'Aucun utilisateur, cliquer sur "Ajouter un utilisateur" pour en créer un',
+        withSearch: (search: string) => ({
+          title: search ? `Aucun utilisateur ne correspond à "${search}"` : 'Aucun utilisateur',
+          subtitle: '',
+        }),
       },
       search: {
         label: 'Rechercher un utilisateur',

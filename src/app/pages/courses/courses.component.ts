@@ -72,10 +72,10 @@ export class CoursesComponent implements OnInit {
     return {
       title: 'Cours',
       emptyState: {
-        withSearch: (search: string) =>
-          search
-            ? `Aucun cours ne correspond à "${search}"`
-            : 'Aucun cours, cliquer sur "Ajouter un cours" pour en créer un',
+        withSearch: (search: string) => ({
+          title: search ? `Aucun cours ne correspond à "${search}"` : 'Aucun cours',
+          subtitle: search ? '' : 'Cliquer sur "Ajouter un cours" pour en créer un !',
+        }),
       },
       search: {
         label: 'Rechercher un cours',
