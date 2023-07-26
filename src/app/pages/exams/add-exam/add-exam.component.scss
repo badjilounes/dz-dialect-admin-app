@@ -61,6 +61,11 @@ form {
   border: 2px solid #eee;
   border-radius: 8px;
 
+  .mat-card-title {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
   .top-right-card-actions {
     display: none;
     width: fit-content;

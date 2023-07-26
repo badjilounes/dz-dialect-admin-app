@@ -19,19 +19,27 @@
       *ngFor="let question of questionArray.controls; let questionIndex = index"
       [formGroup]="question"
     >
-      <div class="top-right-card-actions">
-        <button mat-icon-button type="button" (click)="addAfterQuestion(questionIndex)">
-          <mat-icon>add</mat-icon>
-        </button>
-        <button mat-icon-button type="button" color="warn" (click)="removeQuestion(questionIndex)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+      <mat-card-title>
+        Question {{ questionIndex + 1 }}
+
+        <div class="top-right-card-actions">
+          <button mat-icon-button type="button" (click)="addAfterQuestion(questionIndex)">
+            <mat-icon>add</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            type="button"
+            color="warn"
+            (click)="removeQuestion(questionIndex)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-card-title>
 
       <mat-form-field appearance="outline">
         <mat-label>Type de question</mat-label>
-        <mat-select formControlName="type"
-          >>
+        <mat-select formControlName="type">
           <mat-option *ngFor="let option of questionTypeOptions" [value]="option">
             {{ 'question.type.' + option | translate }}
           </mat-option>
