@@ -11,7 +11,11 @@
  */
 
 
-export interface SkipExamDto { 
-    examId: string;
-}
+export type ExamCopyStateEnum = 'COMPLETED' | 'IN_PROGRESS' | 'SKIPPED';
+
+export const ExamCopyStateEnum = {
+    COMPLETED: 'COMPLETED' as ExamCopyStateEnum,
+    IN_PROGRESS: 'IN_PROGRESS' as ExamCopyStateEnum,
+    SKIPPED: 'SKIPPED' as ExamCopyStateEnum
+};
 

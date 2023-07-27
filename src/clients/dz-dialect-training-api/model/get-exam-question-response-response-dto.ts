@@ -9,14 +9,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { GetExamQuestionResponseDto } from './get-exam-question-response-dto';
 
 
-export interface GetExamResponseDto { 
+export interface GetExamQuestionResponseResponseDto { 
     id: string;
-    trainingId: string;
-    name: string;
-    resume?: GetExamQuestionResponseDto;
-    questions: Array<GetExamQuestionResponseDto>;
+    valid: boolean;
+    answer: string;
+    response: string;
+    createdAt: string;
 }
 
