@@ -49,6 +49,7 @@ export class AddExamComponent {
 
   examForm: FormGroup = new FormGroup({
     name: new FormControl(this.data.exam?.name, [Validators.required]),
+    description: new FormControl(this.data.exam?.description),
     courseId: new FormControl(this.data.courseId ?? '', [Validators.required]),
     questions: new FormArray(this.buildQuestionsFormArray(this.data.exam?.questions ?? [])),
   });
@@ -113,6 +114,7 @@ export class AddExamComponent {
     const payload: CreateExamDto = {
       trainingId: this.data.trainingId,
       name: this.examForm.value.name,
+      description: this.examForm.value.description,
       courseId: this.examForm.value.courseId,
       questions: this.examForm.value.questions,
     };
@@ -135,6 +137,7 @@ export class AddExamComponent {
       examId: this.data.exam.id,
       trainingId: this.data.trainingId,
       name: this.examForm.value.name,
+      description: this.examForm.value.description,
       courseId: this.examForm.value.courseId,
       questions: this.examForm.value.questions,
     };
