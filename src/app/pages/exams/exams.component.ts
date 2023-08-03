@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatDialogConfig } from '@angular/material/dialog';
@@ -5,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { tap } from 'rxjs';
+import { map, shareReplay, tap } from 'rxjs';
 import {
   ConfirmButtonColor,
   ConfirmData,
@@ -38,11 +39,17 @@ export class ExamsComponent implements OnInit {
   courseId!: string;
   trainingId!: string;
 
+  isHandset$ = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    map((result) => result.matches),
+    shareReplay(),
+  );
+
   constructor(
     private readonly professorHttpService: ProfessorHttpService,
     private readonly title: Title,
     private readonly snackBar: MatSnackBar,
     private readonly route: ActivatedRoute,
+    private readonly breakpointObserver: BreakpointObserver,
   ) {
     this.title.setTitle('Examens');
   }

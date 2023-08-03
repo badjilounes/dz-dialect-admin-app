@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +9,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgxColorsModule } from 'ngx-colors';
 import { map, shareReplay, tap } from 'rxjs';
 import { CourseResponseDto, ProfessorHttpService } from '../../../clients/dz-dialect-training-api';
 import { SubnavTrainingListComponent } from '../../shared/business/subnav-training-list/subnav-training-list.component';
@@ -36,6 +38,8 @@ import { AddCourseComponent } from './add-course/add-course.component';
     MatButtonModule,
     SubnavTrainingListComponent,
     UiSortableCrudComponent,
+    ReactiveFormsModule,
+    NgxColorsModule,
   ],
 })
 export class CoursesComponent implements OnInit {
@@ -66,6 +70,10 @@ export class CoursesComponent implements OnInit {
         untilDestroyed(this),
       )
       .subscribe();
+  }
+
+  getColorControl(color: string): FormControl {
+    return new FormControl({ value: color, disabled: true });
   }
 
   private buildUiConfiguration(): UiSortableCrudConfiguration<CourseResponseDto> {

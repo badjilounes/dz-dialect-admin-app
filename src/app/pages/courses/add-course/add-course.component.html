@@ -17,6 +17,15 @@
         formControlName="description"
       ></textarea>
     </mat-form-field>
+
+    <div class="color-form-field">
+      <label>Couleur</label>
+      <ngx-colors
+        ngx-colors-trigger
+        formControlName="color"
+        [colorsAnimation]="'popup'"
+      ></ngx-colors>
+    </div>
   </mat-dialog-content>
 
   <mat-dialog-actions>

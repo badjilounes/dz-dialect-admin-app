@@ -1,10 +1,12 @@
 <app-subnav-training-list>
   <app-subnav-course-list [trainingId]="trainingId" subnavTrainingListContent>
     <app-ui-sortable-crud [configuration]="configuration" subnavCourseListContent>
-      <ng-template #itemTemplate let-course>
+      <ng-template #itemTemplate let-exam>
         <div class="title">
-          <span>{{ course.name }}</span>
+          <span>{{ exam.name }}</span>
         </div>
+
+        <span class="description" *ngIf="!(isHandset$ | async)">{{ exam.description }}</span>
       </ng-template>
     </app-ui-sortable-crud>
   </app-subnav-course-list>

@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { NgxColorsModule } from 'ngx-colors';
 import { tap } from 'rxjs';
 import {
   CourseResponseDto,
@@ -31,12 +32,14 @@ import {
     TextFieldModule,
     MatSlideToggleModule,
     MatInputModule,
+    NgxColorsModule,
   ],
 })
 export class AddCourseComponent {
   courseForm: FormGroup = new FormGroup({
     name: new FormControl(this.data.course?.name, [Validators.required]),
     description: new FormControl(this.data.course?.description ?? ''),
+    color: new FormControl(this.data.course?.color ?? ''),
     trainingId: new FormControl(this.data.trainingId ?? '', [Validators.required]),
   });
 
@@ -66,6 +69,7 @@ export class AddCourseComponent {
     const payload: CreateCourseDto = {
       name: this.courseForm.value.name,
       description: this.courseForm.value.description,
+      color: this.courseForm.value.color,
       trainingId: this.courseForm.value.trainingId,
     };
 
@@ -86,6 +90,7 @@ export class AddCourseComponent {
     const payload: EditCourseDto = {
       name: this.courseForm.value.name,
       description: this.courseForm.value.description,
+      color: this.courseForm.value.color,
       trainingId: this.courseForm.value.trainingId,
     };
 
